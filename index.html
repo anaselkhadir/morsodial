@@ -61,13 +61,16 @@
         .fixed-header-container { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
         .top-announcement { background-color: #1B2240; color: #FFFFFF; text-align: center; padding: 8px 20px; font-size: 13px; font-weight: 500; }
         body.dark-mode .top-announcement { background-color: #020617; border-bottom: 1px solid var(--border-color); }
+        
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 8%; background-color: var(--nav-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); }
-        .logo { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .logo { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 10px; z-index: 1010; }
         .logo-symbol { width: 32px; height: 32px; background-color: #1B2240; border-radius: 8px; display: flex; flex-direction: column; justify-content: center; gap: 4px; padding-left: 7px; position: relative;}
         body.dark-mode .logo-symbol { background-color: #334155; }
         .logo-symbol .line { display: block; width: 16px; height: 3px; background-color: var(--teal); border-radius: 2px; }
         .logo-symbol .line.text-short { width: 12px; }
         .logo-symbol .dot-corail { width: 6px; height: 6px; background-color: var(--corail); border-radius: 50%; position: absolute; bottom: 5px; right: 5px; }
+        
+        /* Navigation Desktop */
         .nav-links { display: flex; list-style: none; }
         .nav-links li { margin: 0 18px; }
         .nav-links a { text-decoration: none; color: var(--navy); font-weight: 500; font-size: 15px; }
@@ -75,13 +78,29 @@
         .nav-buttons { display: flex; align-items: center; gap: 14px; }
         .dark-mode-toggle { background-color: var(--toggle-bg); color: var(--toggle-color); border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 
+        /* Bouton Menu Mobile (Burger) - Caché sur Desktop */
+        .menu-toggle-btn { display: none; background: none; border: none; font-size: 24px; color: var(--navy); cursor: pointer; z-index: 1010; width: 40px; height: 40px; align-items: center; justify-content: center; }
+
+        /* --- 📱 FENÊTRE MENU MOBILE (DRAWER) --- */
+        .mobile-menu-drawer { position: fixed; top: 0; right: -100%; width: 280px; height: 100Dvh; background-color: var(--white); border-left: 1px solid var(--border-color); box-shadow: -10px 0 30px rgba(0,0,0,0.05); z-index: 1005; display: flex; flex-direction: column; padding: 100px 24px 40px 24px; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .mobile-menu-drawer.open { right: 0; }
+        .mobile-nav-links { list-style: none; display: flex; flex-direction: column; gap: 24px; margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 24px; }
+        .mobile-nav-links a { text-decoration: none; color: var(--navy); font-size: 18px; font-weight: 600; }
+        .mobile-menu-actions { display: flex; flex-direction: column; gap: 16px; }
+        .mobile-menu-footer { margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid var(--border-color); }
+        .mobile-menu-footer span { font-size: 14px; font-weight: 500; color: var(--text-secondary); }
+
+        /* Overlay d'arrière-plan quand le menu mobile est ouvert */
+        .drawer-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.2); backdrop-filter: blur(3px); z-index: 1001; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .drawer-overlay.active { opacity: 1; pointer-events: auto; }
+
         /* Boutons */
         .btn-teal-sm { padding: 10px 22px; background-color: var(--teal); color: #FFFFFF; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; }
         .btn-text { color: var(--navy); text-decoration: none; font-weight: 600; font-size: 15px; }
         .btn-corail { padding: 15px 35px; background-color: var(--corail); color: #FFFFFF; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 107, 74, 0.2); text-align: center; }
         .btn-outline-navy { padding: 15px 35px; border: 2px solid var(--navy); color: var(--navy); background: transparent; border-radius: 50px; font-weight: 600; text-decoration: none; text-align: center; }
-        .btn-navy-full { padding: 12px; background-color: #1B2240; color: #FFFFFF; width: 100%; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; }
-        .btn-corail-full { padding: 14px; background-color: var(--corail); color: #FFFFFF; width: 100%; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; }
+        .btn-navy-full { padding: 12px; background-color: #1B2240; color: #FFFFFF; width: 100%; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; }
+        .btn-corail-full { padding: 14px; background-color: var(--corail); color: #FFFFFF; width: 100%; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; text-align: center; }
 
         /* --- Hero Section --- */
         .hero-section { padding: 160px 8% 60px 8%; max-width: 1400px; margin: 0 auto; }
@@ -242,12 +261,16 @@
         .btn-corail-submit { padding: 14px; background-color: var(--teal); color: #FFFFFF; border: none; border-radius: 50px; font-weight: 700; font-size: 15px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; }
 
         /* ==========================================================================
-           ⚡️ 📱 REFAONTE ULTRA-RESPONSIVE MOBILE ET TABLETTE (MEDIA QUERIES) ⚡️
+           ⚡️ 📱 REFAONTE ULTRA-RESPONSIVE AVEC MENU BURGER DÉDIÉ ⚡️
            ========================================================================== */
         
         @media (max-width: 950px) {
             .navbar { padding: 15px 5%; }
-            .top-announcement, .nav-links { display: none; }
+            .top-announcement, .nav-links, .nav-buttons { display: none; } /* On cache l'UI desktop */
+            
+            /* On affiche le bouton Burger */
+            .menu-toggle-btn { display: flex; } 
+
             .hero-section { padding-top: 110px; }
             .hero-container { grid-template-columns: 1fr; text-align: center; gap: 30px; }
             .hero-text-side h1 { font-size: 34px; }
@@ -261,22 +284,18 @@
         }
 
         @media (max-width: 600px) {
-            /* Ajustements d'affichage globaux pour petits téléphones */
             .navbar { padding: 12px 4%; }
             .logo { font-size: 19px; }
-            .btn-teal-sm { padding: 8px 14px; font-size: 13px; }
-            .dark-mode-toggle { width: 34px; height: 34px; font-size: 14px; }
             
             .hero-section { padding-left: 4%; padding-right: 4%; }
             .hero-text-side h1 { font-size: 28px; }
 
-            /* 💻 REDESSIN DU MACBOOK POUR MOBILE COMPACT 💻 */
+            /* Maquette MacBook réajustée */
             .macbook-flat-hardware { max-width: 96%; }
             .macbook-flat-screen-lid { width: 96%; padding: 7px; border-radius: 12px 12px 0 0; }
             .macbook-flat-display { height: 230px; border-radius: 6px 6px 0 0; }
-            .macbook-flat-notch { width: 65px; height: 9px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; }
+            .macbook-flat-notch { width: 65px; height: 9px; }
             
-            /* Recadrage des widgets à l'intérieur de la maquette */
             .mockup-viewport-body { padding: 10px; height: calc(100% - 25px); }
             .widget-box, .success-box-element, .chart-box-element { padding: 14px; border-radius: 10px; max-width: 90%; margin: 0 auto; }
             .widget-lbl { font-size: 11px; margin-bottom: 8px; }
@@ -286,19 +305,20 @@
             .success-check-circle { width: 32px; height: 32px; font-size: 14px; }
             .chart-svg-draw { height: 45px; }
 
-            /* Section Lignes et Tarifs */
             .telephony-section, .features-section, .pricing-section { padding: 50px 4%; }
             .section-center-head h2 { font-size: 24px; }
             .telecom-card, .price-card { padding: 25px 20px; }
             .cost { font-size: 26px; }
 
-            /* Modal Pop-up sur Mobile */
             .modal-body { padding: 20px; }
             .modal-header { padding: 15px 20px; }
         }
     </style>
 </head>
 <body>
+
+    <!-- OVERLAY POUR LE MENU MOBILE -->
+    <div class="drawer-overlay" id="menuOverlay" onclick="toggleMobileMenu()"></div>
 
     <!-- EN-TÊTE FIXE -->
     <div class="fixed-header-container">
@@ -315,6 +335,8 @@
                 </div>
                 Morsodial
             </div>
+            
+            <!-- Navigation standard Desktop -->
             <nav>
                 <ul class="nav-links">
                     <li><a href="#telephony">Notre Téléphonie</a></li>
@@ -325,9 +347,31 @@
             <div class="nav-buttons">
                 <a href="#login" class="btn-text">Connexion</a>
                 <button onclick="openModal()" class="btn-teal-sm">S'inscrire</button>
-                <button class="dark-mode-toggle" id="themeToggleBtn"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+                <button class="dark-mode-toggle" class="themeToggleBtn"><i class="fa-solid fa-moon themeIcon"></i></button>
             </div>
+
+            <!-- BOUTON BURGER MOBILE -->
+            <button class="menu-toggle-btn" id="burgerBtn" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars" id="burgerIcon"></i>
+            </button>
         </header>
+    </div>
+
+    <!-- 📱 MENU LATÉRAL MOBILE (DRAWER) -->
+    <div class="mobile-menu-drawer" id="mobileDrawer">
+        <ul class="mobile-nav-links">
+            <li><a href="#telephony" onclick="toggleMobileMenu()">Notre Téléphonie</a></li>
+            <li><a href="#features" onclick="toggleMobileMenu()">Fonctionnalités</a></li>
+            <li><a href="#pricing" onclick="toggleMobileMenu()">Tarifs</a></li>
+        </ul>
+        <div class="mobile-menu-actions">
+            <a href="#login" class="btn-navy-full" style="background-color: transparent; border: 2px solid var(--navy); color: var(--navy);" onclick="toggleMobileMenu()">Connexion</a>
+            <button onclick="toggleMobileMenu(); openModal();" class="btn-corail-full">S'inscrire</button>
+        </div>
+        <div class="mobile-menu-footer">
+            <span>Mode Sombre</span>
+            <button class="dark-mode-toggle" class="themeToggleBtn"><i class="fa-solid fa-moon themeIcon"></i></button>
+        </div>
     </div>
 
     <!-- Section Hero -->
@@ -348,17 +392,13 @@
                 </div>
             </div>
             
-            <!-- MAQUETTE SÉCURISÉE ET ENTIÈREMENT ADAPTATIVE -->
             <div class="hero-visual-side">
                 <div class="macbook-flat-hardware">
-                    
-                    <!-- L'Écran -->
                     <div class="macbook-flat-screen-lid">
                         <div class="macbook-flat-display">
                             <div class="macbook-flat-notch"></div>
                             <div class="macbook-flat-gloss"></div>
                             
-                            <!-- Header de la fenêtre -->
                             <div class="mockup-window-header">
                                 <div class="window-dots"><span></span><span></span><span></span></div>
                                 <div class="window-url-bar" id="mockupRoute">morsodial.com/dialer</div>
@@ -370,10 +410,7 @@
                                 </div>
                             </div>
                             
-                            <!-- Corps de l'application (Story) -->
                             <div class="mockup-viewport-body">
-                                
-                                <!-- Étape 1 -->
                                 <div class="viewport-slide active" id="screen-0">
                                     <div class="widget-box">
                                         <div class="radar-animation-element">
@@ -386,7 +423,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Étape 2 -->
                                 <div class="viewport-slide" id="screen-1">
                                     <div class="widget-box">
                                         <div style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 3px 8px; border-radius: 20px; font-size: 9px; font-weight: 700; margin: 0 auto 10px auto; width: fit-content;">REC EN COURS</div>
@@ -397,7 +433,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Étape 3 -->
                                 <div class="viewport-slide" id="screen-2">
                                     <div class="success-box-element">
                                         <div class="success-check-circle"><i class="fa-solid fa-handshake"></i></div>
@@ -406,7 +441,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Étape 4 -->
                                 <div class="viewport-slide" id="screen-3">
                                     <div class="chart-box-element">
                                         <div style="font-size:9px; color:#64748b; font-weight:600;">CA Réalisé ce mois</div>
@@ -418,17 +452,12 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
-                    <!-- Le Châssis Bas -->
                     <div class="macbook-flat-body-base"></div>
-                    
                 </div>
             </div>
-            
         </div>
     </section>
 
@@ -642,12 +671,34 @@
         }
         setInterval(runStorytellingCycle, 4000);
 
-        // Mode Sombre/Clair
-        document.getElementById('themeToggleBtn').addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const icon = document.getElementById('themeIcon');
-            icon.classList.toggle('fa-moon');
-            icon.classList.toggle('fa-sun');
+        // --- GESTION ET ANIMATION DU MENU MOBILE (BURGER) ---
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobileDrawer');
+            const overlay = document.getElementById('menuOverlay');
+            const icon = document.getElementById('burgerIcon');
+            
+            drawer.classList.toggle('open');
+            overlay.classList.toggle('active');
+            
+            // Animation de bascule d'icône (Bars <-> Xmark)
+            if (drawer.classList.contains('open')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        // --- GESTION DU MODE SOMBRE (Pour les deux boutons Desktop et Mobile) ---
+        document.querySelectorAll('.themeToggleBtn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                document.querySelectorAll('.themeIcon').forEach(icon => {
+                    icon.classList.toggle('fa-moon');
+                    icon.classList.toggle('fa-sun');
+                });
+            });
         });
 
         const rates = { "France": 85, "Canada": 50, "Suisse": 9.99, "Belgique": 9.99 };
@@ -668,7 +719,7 @@
             document.getElementById('computed-price').innerText = `${(price * agents).toFixed(2).replace('.', ',')} € / mois`;
         }
 
-        // Menu déroulant des pays
+        // Menu déroulant des pays dans le formulaire
         const dropdown = document.getElementById('countryDropdown');
         document.getElementById('dropdownTriggerBtn').addEventListener('click', (e) => { e.stopPropagation(); dropdown.classList.toggle('open'); });
         document.querySelectorAll('.dropdown-item').forEach(item => {
