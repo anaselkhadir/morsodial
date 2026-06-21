@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Morsodial | Logiciel de Centre d'Appels & Téléphonie Fixe/Mobile</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght=500;600;700&family=Inter:wght=400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -236,19 +236,82 @@
         .social-link { width: 40px; height: 40px; background-color: rgba(255, 255, 255, 0.05); color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; }
         .footer-bottom { max-width: 1100px; margin: 30px auto 0 auto; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #64748b; }
 
-        /* Modal */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.6); backdrop-filter: blur(5px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        /* ==========================================================================
+           CORRECTIONS FLUIDITÉ MOBILE - FORMULAIRE D'INSCRIPTION
+           ========================================================================== */
+        .modal-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh; 
+            height: 100dvh; /* S'ajuste dynamiquement en présence du clavier virtuel */
+            background-color: rgba(15, 23, 42, 0.6); 
+            backdrop-filter: blur(5px); 
+            z-index: 2000; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            opacity: 0; 
+            pointer-events: none; 
+            transition: opacity 0.3s; 
+            padding: 10px; /* Évite les collisions physiques */
+        }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-window { background-color: var(--white); width: 90%; max-width: 680px; border-radius: 16px; border: 1px solid var(--border-color); transform: scale(0.9); transition: transform 0.3s; overflow-y: auto; max-height: 90vh; }
+        
+        .modal-window { 
+            background-color: var(--white); 
+            width: 90%; 
+            max-width: 680px; 
+            border-radius: 16px; 
+            border: 1px solid var(--border-color); 
+            transform: scale(0.9); 
+            transition: transform 0.3s; 
+            display: flex;
+            flex-direction: column;
+            
+            /* GESTION DE LA HAUTEUR MOBILE */
+            max-height: 94vh; 
+            max-height: 94dvh; /* Bloque la boîte pour qu'elle tienne toujours dans l'écran visible */
+            overflow: hidden; 
+        }
         .modal-overlay.active .modal-window { transform: scale(1); }
-        .modal-header { background-color: var(--brume); padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); border-radius: 16px 16px 0 0; }
+        
+        .modal-header { 
+            background-color: var(--brume); 
+            padding: 20px 30px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid var(--border-color); 
+            border-radius: 16px 16px 0 0;
+            flex-shrink: 0; /* Empêche l'en-tête de s'écraser */
+        }
         .close-modal-btn { background: none; border: none; color: var(--charbon); font-size: 28px; cursor: pointer; }
-        .modal-body { padding: 30px; }
+        
+        .modal-body { 
+            padding: 30px; 
+            
+            /* DÉFILEMENT INTERNE ULTRA-FLUIDE */
+            overflow-y: auto; 
+            -webkit-overflow-scrolling: touch; /* Évite les saccades sur Safari iOS */
+        }
+        
         .devis-form { display: flex; flex-direction: column; gap: 18px; }
         .form-row { display: flex; gap: 20px; }
         .form-group { display: flex; flex-direction: column; gap: 6px; flex: 1; position: relative; }
         .form-group label { font-size: 13px; font-weight: 600; color: var(--navy); }
-        .form-group input, .form-group select { padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; background-color: var(--brume); outline: none; color: var(--charbon); }
+        
+        /* PROTECTION ANTI-ZOOM FORCÉ SUR IOS */
+        .form-group input, .form-group select { 
+            padding: 12px 16px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 8px; 
+            font-size: 16px; /* 16px minimum pour désactiver le zoom natif de Safari au focus */
+            background-color: var(--brume); 
+            outline: none; 
+            color: var(--charbon); 
+        }
         .form-group input:focus, .form-group select:focus { border-color: var(--teal); background-color: var(--white); }
         .live-price-box { background-color: var(--price-box-bg); border: 1px dashed var(--price-box-border); border-radius: 10px; padding: 16px 20px; display: flex; flex-direction: column; gap: 4px; }
         .live-price-title { font-size: 15px; font-weight: 700; color: var(--navy); display: flex; justify-content: space-between; align-items: center; }
@@ -309,6 +372,8 @@
             .section-center-head h2 { font-size: 24px; }
             .telecom-card, .price-card { padding: 25px 20px; }
             .cost { font-size: 26px; }
+            
+            /* Ajustement fin pour le contenu modal sur très petits écrans */
             .modal-body { padding: 20px; }
             .modal-header { padding: 15px 20px; }
         }
