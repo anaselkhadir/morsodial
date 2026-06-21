@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Morsodial | Logiciel de Centre d'Appels & Téléphonie Fixe/Mobile</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght=500;600;700&family=Inter:wght=400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -57,31 +57,127 @@
         body { background: var(--bg-global); background-attachment: fixed; color: var(--charbon); font-family: 'Inter', sans-serif; overflow-x: hidden; transition: background 0.5s ease; }
         h1, h2, h3, h4, .logo { font-family: 'Sora', sans-serif; color: var(--navy); font-weight: 600; }
 
-        /* --- En-tête --- */
+        /* Support RTL pour l'arabe */
+        html[dir="rtl"] .logo-nav-group { flex-direction: row-reverse; }
+        html[dir="rtl"] .nav-links { flex-direction: row-reverse; }
+        html[dir="rtl"] .nav-buttons { flex-direction: row-reverse; }
+        html[dir="rtl"] .lang-dropdown-menu { right: auto; left: 0; }
+        html[dir="rtl"] .telecom-card, html[dir="rtl"] .price-card, html[dir="rtl"] .f-block { text-align: right; }
+        html[dir="rtl"] .card-bullets li, html[dir="rtl"] .p-features li { flex-direction: row-reverse; }
+        html[dir="rtl"] .hero-text-side { text-align: right; }
+        html[dir="rtl"] .hero-text-side p { margin-left: auto; margin-right: 0; }
+        html[dir="rtl"] .hero-cta-group, html[dir="rtl"] .hero-trust-metrics { flex-direction: row-reverse; justify-content: flex-start; }
+        html[dir="rtl"] .footer-contact-list li { flex-direction: row-reverse; }
+
+        /* --- En-tête / Navbar --- */
         .fixed-header-container { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
         .top-announcement { background-color: #1B2240; color: #FFFFFF; text-align: center; padding: 8px 20px; font-size: 13px; font-weight: 500; }
         body.dark-mode .top-announcement { background-color: #020617; border-bottom: 1px solid var(--border-color); }
         
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 8%; background-color: var(--nav-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); }
-        .logo { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 10px; z-index: 1010; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 0 8%; height: 74px; background-color: var(--nav-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); }
+        
+        .logo-nav-group { display: flex; align-items: center; gap: 40px; height: 100%; }
+        
+        .logo { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 10px; z-index: 1010; cursor: default; }
         .logo-symbol { width: 32px; height: 32px; background-color: #1B2240; border-radius: 8px; display: flex; flex-direction: column; justify-content: center; gap: 4px; padding-left: 7px; position: relative;}
         body.dark-mode .logo-symbol { background-color: #334155; }
         .logo-symbol .line { display: block; width: 16px; height: 3px; background-color: var(--teal); border-radius: 2px; }
         .logo-symbol .line.text-short { width: 12px; }
         .logo-symbol .dot-corail { width: 6px; height: 6px; background-color: var(--corail); border-radius: 50%; position: absolute; bottom: 5px; right: 5px; }
         
-        /* Navigation Bureau (Desktop) */
-        .nav-links { display: flex; list-style: none; }
+        /* Navigation Liens */
+        .nav-links { display: flex; list-style: none; align-items: center; height: 100%; }
         .nav-links li { margin: 0 18px; }
-        .nav-links a { text-decoration: none; color: var(--navy); font-weight: 500; font-size: 15px; }
+        .nav-links a { text-decoration: none; color: var(--navy); font-weight: 500; font-size: 15px; transition: color 0.2s; }
         .nav-links a:hover { color: var(--teal); }
-        .nav-buttons { display: flex; align-items: center; gap: 14px; }
-        .dark-mode-toggle { background-color: var(--toggle-bg); color: var(--toggle-color); border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        
+        /* Actions (Boutons + Langue avec Flexbox strict) */
+        .nav-buttons { display: flex; align-items: center; gap: 12px; height: 100%; }
 
-        /* Bouton Menu Burger Mobile (Masqué sur Desktop) */
+        /* Alignement vertical strict et hauteur unique pour tous les éléments cliquables du header */
+        .header-btn-base {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 40px;
+            padding: 0 18px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+            border: none;
+            background: transparent;
+            white-space: nowrap;
+        }
+
+        /* Bouton Connexion Entouré */
+        .btn-login-header { 
+            border: 1px solid var(--border-color);
+            background-color: var(--brume);
+            color: var(--navy); 
+            text-decoration: none; 
+        }
+        .btn-login-header:hover { 
+            background-color: var(--border-color);
+            color: var(--teal); 
+        }
+
+        .btn-teal-sm { background-color: var(--teal); color: #FFFFFF; }
+        .btn-teal-sm:hover { background-color: #0d9488; transform: translateY(-1px); }
+        
+        .dark-mode-toggle { background-color: var(--toggle-bg); color: var(--toggle-color); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+
+        /* Sélecteur de Langue Premium Inline-Flex */
+        .header-lang-selector { position: relative; }
+        .btn-lang-trigger {
+            background-color: var(--brume);
+            border: 1px solid var(--border-color);
+            color: var(--navy);
+            padding: 0 14px;
+        }
+        .btn-lang-trigger:hover { background-color: var(--border-color); }
+        .btn-lang-trigger img { width: 18px; height: 12px; object-fit: cover; border-radius: 2px; }
+        .btn-lang-trigger i { font-size: 11px; margin-left: 2px; color: var(--text-secondary); }
+
+        .lang-dropdown-menu { 
+            position: absolute; 
+            top: calc(100% + 6px); 
+            right: 0; 
+            background-color: var(--white); 
+            border: 1px solid var(--border-color); 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            z-index: 1050; 
+            min-width: 130px; 
+            display: none; 
+            overflow: hidden;
+        }
+        .header-lang-selector.open .lang-dropdown-menu { display: block; }
+        .lang-dropdown-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            padding: 10px 14px; 
+            color: var(--charbon); 
+            text-decoration: none; 
+            font-size: 13px; 
+            font-weight: 500;
+            width: 100%;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            text-align: left;
+        }
+        .lang-dropdown-item:hover { background-color: var(--dropdown-hover); color: var(--teal); }
+        .lang-dropdown-item img { width: 18px; height: 12px; object-fit: cover; border-radius: 2px; }
+
+        /* Menu Burger Mobile */
         .menu-toggle-btn { display: none; background: none; border: none; font-size: 24px; color: var(--navy); cursor: pointer; z-index: 1010; width: 40px; height: 40px; align-items: center; justify-content: center; }
 
-        /* --- 📱 NOUVELLE FENÊTRE MENU MOBILE (DRAWER) --- */
+        /* Menu tiroir (Drawer) Mobile */
         .mobile-menu-drawer { position: fixed; top: 0; right: -100%; width: 300px; height: 100Dvh; background-color: var(--white); border-left: 1px solid var(--border-color); box-shadow: -10px 0 30px rgba(0,0,0,0.05); z-index: 1005; display: flex; flex-direction: column; padding: 100px 24px 40px 24px; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .mobile-menu-drawer.open { right: 0; }
         
@@ -89,29 +185,28 @@
         .mobile-nav-links a { text-decoration: none; color: var(--navy); font-size: 17px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
         .mobile-nav-links i { color: var(--teal); font-size: 16px; width: 20px; }
 
-        /* Bloc d'actions regroupant Connexion, Inscription et Mode Sombre tout en bas */
         .mobile-menu-actions { display: flex; flex-direction: column; gap: 14px; }
         .mobile-menu-actions .btn-login-mobile { width: 100%; padding: 14px; background: transparent; border: 2px solid var(--navy); color: var(--navy); border-radius: 50px; font-weight: 600; text-align: center; text-decoration: none; font-size: 15px; }
         .mobile-menu-actions .btn-register-mobile { width: 100%; padding: 14px; background-color: var(--teal); color: #FFFFFF; border: none; border-radius: 50px; font-weight: 600; text-align: center; cursor: pointer; font-size: 15px; }
         
-        /* Mode Sombre intégré en bas de la fenêtre */
-        .mobile-dark-mode-row { margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid var(--border-color); }
-        .mobile-dark-mode-row span { font-size: 15px; font-weight: 600; color: var(--navy); display: flex; align-items: center; gap: 10px; }
+        /* Langue & Dark mode Mobile */
+        .mobile-lang-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-color); }
+        .mobile-lang-row span, .mobile-dark-mode-row span { font-size: 15px; font-weight: 600; color: var(--navy); display: flex; align-items: center; gap: 10px; }
+        .mobile-lang-select { padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--brume); color: var(--charbon); font-weight: 600; font-size: 13px; }
+        .mobile-dark-mode-row { margin-top: 14px; display: flex; justify-content: space-between; align-items: center; }
 
         /* Voile d'arrière-plan */
         .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 1001; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
         .drawer-overlay.active { opacity: 1; pointer-events: auto; }
 
-        /* Boutons globaux */
-        .btn-teal-sm { padding: 10px 22px; background-color: var(--teal); color: #FFFFFF; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; }
-        .btn-text { color: var(--navy); text-decoration: none; font-weight: 600; font-size: 15px; }
-        .btn-corail { padding: 15px 35px; background-color: var(--corail); color: #FFFFFF; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 107, 74, 0.2); text-align: center; }
+        /* Boutons globaux du corps */
+        .btn-corail { padding: 15px 35px; background-color: var(--corail); color: #FFFFFF; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 107, 74, 0.2); text-align: center; text-decoration: none; }
         .btn-outline-navy { padding: 15px 35px; border: 2px solid var(--navy); color: var(--navy); background: transparent; border-radius: 50px; font-weight: 600; text-decoration: none; text-align: center; }
         .btn-navy-full { padding: 12px; background-color: #1B2240; color: #FFFFFF; width: 100%; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; }
         .btn-corail-full { padding: 14px; background-color: var(--corail); color: #FFFFFF; width: 100%; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; text-align: center; }
 
         /* --- Hero Section --- */
-        .hero-section { padding: 160px 8% 60px 8%; max-width: 1400px; margin: 0 auto; }
+        .hero-section { padding: 170px 8% 60px 8%; max-width: 1400px; margin: 0 auto; }
         .hero-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
         .badge-tag { display: inline-block; padding: 6px 16px; background-color: rgba(20, 184, 166, 0.1); color: var(--teal); font-weight: 700; font-size: 12px; border-radius: 30px; margin-bottom: 20px; }
         .hero-text-side h1 { font-size: 46px; line-height: 1.2; margin-bottom: 24px; letter-spacing: -0.02em; }
@@ -120,9 +215,9 @@
         .hero-trust-metrics { display: flex; gap: 20px; font-size: 13px; font-weight: 600; color: var(--navy); }
         .hero-trust-metrics i { color: var(--teal); margin-right: 4px; }
 
-        /* --- Maquette Ordinateur --- */
+        /* --- Maquette Ordinateur (MacBook Flat) --- */
         .hero-visual-side { display: flex; justify-content: center; align-items: center; width: 100%; }
-        .macbook-flat-hardware { width: 100%; max-width: 560px; position: relative; animation: flatLaptopIntro 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .macbook-flat-hardware { width: 100%; max-width: 560px; position: relative; animation: flatLaptopIntro 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; will-change: transform, opacity; }
 
         @keyframes flatLaptopIntro {
             from { transform: translateY(30px); opacity: 0; }
@@ -144,15 +239,16 @@
         .window-url-bar { font-size: 11px; color: #94a3b8; font-family: monospace; }
         .window-story-progress { display: flex; gap: 4px; width: 65px; }
         .progress-indicator-bar { flex: 1; height: 3px; background: rgba(255,255,255,0.2); border-radius: 2px; position: relative; overflow: hidden; }
+        
         .progress-indicator-bar.active::after { content: ''; position: absolute; left:0; top:0; height:100%; width:100%; background: var(--teal); animation: fillBar 4s linear forwards; }
-        .progress-indicator-bar.done { background: var(--teal); }
+        .progress-indicator-bar.completed { background: var(--teal); }
 
         @keyframes fillBar { from { width: 0%; } to { width: 100%; } }
 
         .mockup-viewport-body { background-color: var(--mockup-bg); height: calc(100% - 29px); display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; overflow: hidden; }
-        .viewport-slide { display: none; width: 100%; max-width: 320px; animation: slideFade 0.4s ease forwards; }
+        .viewport-slide { display: none; width: 100%; max-width: 320px; animation: slideFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .viewport-slide.active { display: block; }
-        @keyframes slideFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
         .widget-box { border: 1px solid var(--border-color); border-radius: 12px; padding: 22px; text-align: center; background-color: rgba(255, 255, 255, 0.98); box-shadow: 0 10px 25px rgba(0,0,0,0.03); }
         body.dark-mode .widget-box { background-color: rgba(30, 41, 59, 0.98); }
@@ -233,92 +329,30 @@
         .footer-contact-list i { color: var(--teal); margin-top: 3px; width: 16px; }
         .footer-contact-list a { color: #94a3b8; text-decoration: none; }
         .social-icons-box { display: flex; gap: 12px; }
-        .social-link { width: 40px; height: 40px; background-color: rgba(255, 255, 255, 0.05); color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+        .social-icons-box a { width: 40px; height: 40px; background-color: rgba(255, 255, 255, 0.05); color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; }
         .footer-bottom { max-width: 1100px; margin: 30px auto 0 auto; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #64748b; }
 
-        /* ==========================================================================
-           CORRECTIONS FLUIDITÉ MOBILE - FORMULAIRE D'INSCRIPTION
-           ========================================================================== */
-        .modal-overlay { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100vw; 
-            height: 100vh; 
-            height: 100dvh; /* S'ajuste dynamiquement en présence du clavier virtuel */
-            background-color: rgba(15, 23, 42, 0.6); 
-            backdrop-filter: blur(5px); 
-            z-index: 2000; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            opacity: 0; 
-            pointer-events: none; 
-            transition: opacity 0.3s; 
-            padding: 10px; /* Évite les collisions physiques */
-        }
+        /* Modal d'inscription */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.6); backdrop-filter: blur(5px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        
-        .modal-window { 
-            background-color: var(--white); 
-            width: 90%; 
-            max-width: 680px; 
-            border-radius: 16px; 
-            border: 1px solid var(--border-color); 
-            transform: scale(0.9); 
-            transition: transform 0.3s; 
-            display: flex;
-            flex-direction: column;
-            
-            /* GESTION DE LA HAUTEUR MOBILE */
-            max-height: 94vh; 
-            max-height: 94dvh; /* Bloque la boîte pour qu'elle tienne toujours dans l'écran visible */
-            overflow: hidden; 
-        }
+        .modal-window { background-color: var(--white); width: 90%; max-width: 680px; border-radius: 16px; border: 1px solid var(--border-color); transform: scale(0.9); transition: transform 0.3s; overflow-y: auto; max-height: 90vh; }
         .modal-overlay.active .modal-window { transform: scale(1); }
-        
-        .modal-header { 
-            background-color: var(--brume); 
-            padding: 20px 30px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-bottom: 1px solid var(--border-color); 
-            border-radius: 16px 16px 0 0;
-            flex-shrink: 0; /* Empêche l'en-tête de s'écraser */
-        }
+        .modal-header { background-color: var(--brume); padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); border-radius: 16px 16px 0 0; }
         .close-modal-btn { background: none; border: none; color: var(--charbon); font-size: 28px; cursor: pointer; }
-        
-        .modal-body { 
-            padding: 30px; 
-            
-            /* DÉFILEMENT INTERNE ULTRA-FLUIDE */
-            overflow-y: auto; 
-            -webkit-overflow-scrolling: touch; /* Évite les saccades sur Safari iOS */
-        }
-        
+        .modal-body { padding: 30px; }
         .devis-form { display: flex; flex-direction: column; gap: 18px; }
         .form-row { display: flex; gap: 20px; }
         .form-group { display: flex; flex-direction: column; gap: 6px; flex: 1; position: relative; }
         .form-group label { font-size: 13px; font-weight: 600; color: var(--navy); }
-        
-        /* PROTECTION ANTI-ZOOM FORCÉ SUR IOS */
-        .form-group input, .form-group select { 
-            padding: 12px 16px; 
-            border: 1px solid var(--border-color); 
-            border-radius: 8px; 
-            font-size: 16px; /* 16px minimum pour désactiver le zoom natif de Safari au focus */
-            background-color: var(--brume); 
-            outline: none; 
-            color: var(--charbon); 
-        }
+        .form-group input, .form-group select { padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; background-color: var(--brume); outline: none; color: var(--charbon); }
         .form-group input:focus, .form-group select:focus { border-color: var(--teal); background-color: var(--white); }
+        
         .live-price-box { background-color: var(--price-box-bg); border: 1px dashed var(--price-box-border); border-radius: 10px; padding: 16px 20px; display: flex; flex-direction: column; gap: 4px; }
         .live-price-title { font-size: 15px; font-weight: 700; color: var(--navy); display: flex; justify-content: space-between; align-items: center; }
         .live-price-amount { font-size: 20px; color: var(--teal); font-family: 'Sora', sans-serif; }
         .live-price-detail { font-size: 12px; color: var(--text-secondary); }
 
-        /* Dropdown pays */
+        /* Dropdown pays personnalisé interne au modal */
         .ringover-dropdown { position: relative; width: 100%; user-select: none; }
         .dropdown-trigger { padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--brume); font-size: 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         #selected-country, .dropdown-item { display: flex; align-items: center; gap: 12px; }
@@ -330,18 +364,14 @@
 
         .btn-corail-submit { padding: 14px; background-color: var(--teal); color: #FFFFFF; border: none; border-radius: 50px; font-weight: 700; font-size: 15px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; }
 
-        /* ==========================================================================
-           ⚡️ 📱 CONFIGURATION RESPONSIVE ET INTERFACE BURGER NETTE
-           ========================================================================== */
-        
+        /* --- Media Queries Responsive --- */
         @media (max-width: 950px) {
-            .navbar { padding: 15px 5%; }
-            .top-announcement, .nav-links, .nav-buttons { display: none; } /* Suppression des éléments encombrants */
-            
-            /* Activation du bouton menu à droite comme demandé */
+            .logo-nav-group .nav-links { display: none; }
+            .navbar { padding: 0 5%; }
+            .top-announcement, .nav-buttons { display: none; }
             .menu-toggle-btn { display: flex; } 
 
-            .hero-section { padding-top: 110px; }
+            .hero-section { padding-top: 120px; }
             .hero-container { grid-template-columns: 1fr; text-align: center; gap: 30px; }
             .hero-text-side h1 { font-size: 34px; }
             .hero-text-side p { margin: 0 auto 30px auto; font-size: 16px; }
@@ -354,7 +384,7 @@
         }
 
         @media (max-width: 600px) {
-            .navbar { padding: 12px 4%; }
+            .navbar { padding: 0 4%; height: 64px; }
             .logo { font-size: 19px; }
             
             .hero-section { padding-left: 4%; padding-right: 4%; }
@@ -372,8 +402,6 @@
             .section-center-head h2 { font-size: 24px; }
             .telecom-card, .price-card { padding: 25px 20px; }
             .cost { font-size: 26px; }
-            
-            /* Ajustement fin pour le contenu modal sur très petits écrans */
             .modal-body { padding: 20px; }
             .modal-header { padding: 15px 20px; }
         }
@@ -385,29 +413,51 @@
 
     <div class="fixed-header-container">
         <div class="top-announcement">
-            <p>🚀 Nouveau : Déployez vos lignes mobiles et fixes internationales en moins de 5 minutes !</p>
+            <p data-key="top_banner">🚀 Nouveau : Déployez vos lignes mobiles et fixes internationales en moins de 5 minutes !</p>
         </div>
 
         <header class="navbar">
-            <div class="logo">
-                <div class="logo-symbol">
-                    <span class="line"></span>
-                    <span class="line text-short"></span>
-                    <span class="dot-corail"></span>
+            <div class="logo-nav-group">
+                <div class="logo">
+                    <div class="logo-symbol">
+                        <span class="line"></span>
+                        <span class="line text-short"></span>
+                        <span class="dot-corail"></span>
+                    </div>
+                    Morsodial
                 </div>
-                Morsodial
+                
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="#telephony" data-key="nav_telephony">Notre Téléphonie</a></li>
+                        <li><a href="#features" data-key="nav_features">Fonctionnalités</a></li>
+                        <li><a href="#pricing" data-key="nav_pricing">Tarifs</a></li>
+                    </ul>
+                </nav>
             </div>
             
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#telephony">Notre Téléphonie</a></li>
-                    <li><a href="#features">Fonctionnalités</a></li>
-                    <li><a href="#pricing">Tarifs</a></li>
-                </ul>
-            </nav>
             <div class="nav-buttons">
-                <a href="#login" class="btn-text">Connexion</a>
-                <button onclick="openModal()" class="btn-teal-sm">S'inscrire</button>
+                <div class="header-lang-selector" id="headerLangSelector">
+                    <button class="header-btn-base btn-lang-trigger" id="headerLangBtn">
+                        <img src="https://flagcdn.com/w40/fr.png" alt="FR" id="headerCurrentFlag">
+                        <span id="headerCurrentLangText">FR</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="lang-dropdown-menu">
+                        <button class="lang-dropdown-item" data-lang="FR" data-flag="fr">
+                            <img src="https://flagcdn.com/w40/fr.png" alt="FR"> FR
+                        </button>
+                        <button class="lang-dropdown-item" data-lang="EN" data-flag="gb">
+                            <img src="https://flagcdn.com/w40/gb.png" alt="EN"> EN
+                        </button>
+                        <button class="lang-dropdown-item" data-lang="AR" data-flag="ma">
+                            <img src="https://flagcdn.com/w40/ma.png" alt="AR"> AR
+                        </button>
+                    </div>
+                </div>
+
+                <a href="#login" class="header-btn-base btn-login-header" data-key="btn_login">Connexion</a>
+                <button onclick="openModal()" class="header-btn-base btn-teal-sm" data-key="btn_register">S'inscrire</button>
                 <button class="dark-mode-toggle desktop-toggle"><i class="fa-solid fa-moon themeIcon"></i></button>
             </div>
 
@@ -419,18 +469,27 @@
 
     <div class="mobile-menu-drawer" id="mobileDrawer">
         <ul class="mobile-nav-links">
-            <li><a href="#telephony" onclick="toggleMobileMenu()"><i class="fa-solid fa-phone"></i> Notre Téléphonie</a></li>
-            <li><a href="#features" onclick="toggleMobileMenu()"><i class="fa-solid fa-layer-group"></i> Fonctionnalités</a></li>
-            <li><a href="#pricing" onclick="toggleMobileMenu()"><i class="fa-solid fa-tags"></i> Tarifs</a></li>
+            <li><a href="#telephony" onclick="toggleMobileMenu()"><i class="fa-solid fa-phone"></i> <span data-key="nav_telephony">Notre Téléphonie</span></a></li>
+            <li><a href="#features" onclick="toggleMobileMenu()"><i class="fa-solid fa-layer-group"></i> <span data-key="nav_features">Fonctionnalités</span></a></li>
+            <li><a href="#pricing" onclick="toggleMobileMenu()"><i class="fa-solid fa-tags"></i> <span data-key="nav_pricing">Tarifs</span></a></li>
         </ul>
         
         <div class="mobile-menu-actions">
-            <a href="#login" class="btn-login-mobile" onclick="toggleMobileMenu()">Connexion</a>
-            <button onclick="toggleMobileMenu(); openModal();" class="btn-register-mobile">S'inscrire</button>
+            <a href="#login" class="btn-login-mobile" onclick="toggleMobileMenu()" data-key="btn_login">Connexion</a>
+            <button onclick="toggleMobileMenu(); openModal();" class="btn-register-mobile" data-key="btn_register">S'inscrire</button>
+        </div>
+        
+        <div class="mobile-lang-row">
+            <span><i class="fa-solid fa-globe"></i> <span data-key="mobile_lang_lbl">Langue</span></span>
+            <select class="mobile-lang-select" id="mobileLangSelect">
+                <option value="FR">Français (FR)</option>
+                <option value="EN">English (EN)</option>
+                <option value="AR">العربية (AR)</option>
+            </select>
         </div>
         
         <div class="mobile-dark-mode-row">
-            <span><i class="fa-solid fa-circle-half-stroke"></i> Mode Sombre</span>
+            <span><i class="fa-solid fa-circle-half-stroke"></i> <span data-key="mobile_dark_lbl">Mode Sombre</span></span>
             <button class="dark-mode-toggle mobile-toggle"><i class="fa-solid fa-moon themeIcon"></i></button>
         </div>
     </div>
@@ -438,17 +497,17 @@
     <section id="home" class="hero-section">
         <div class="hero-container">
             <div class="hero-text-side">
-                <span class="badge-tag">Téléphonie d'entreprise Cloud</span>
-                <h1>Le système d'appel tout-en-un pour booster vos ventes</h1>
-                <p>Morsodial combine un dialer prédictif surpuissant et la fourniture de vos lignes téléphoniques professionnelles partout dans le monde. Donnez à vos équipes les outils pour prospecter sans limites.</p>
+                <span class="badge-tag" data-key="hero_badge">Téléphonie d'entreprise Cloud</span>
+                <h1 data-key="hero_title">Le système d'appel tout-en-un pour booster vos ventes</h1>
+                <p data-key="hero_desc">Morsodial combine un dialer prédictif surpuissant et la fourniture de vos lignes téléphoniques professionnelles partout dans le monde. Donnez à vos équipes les outils pour prospecter sans limites.</p>
                 <div class="hero-cta-group">
-                    <button onclick="openModal()" class="btn-corail">S'inscrire immédiatement</button>
-                    <a href="#telephony" class="btn-outline-navy">Voir nos offres de lignes</a>
+                    <button onclick="openModal()" class="btn-corail" data-key="hero_btn_register">S'inscrire immédiatement</button>
+                    <a href="#telephony" class="btn-outline-navy" data-key="hero_btn_offers">Voir nos offres de lignes</a>
                 </div>
                 <div class="hero-trust-metrics">
-                    <span><i class="fa-solid fa-circle-check"></i> Lignes Fixes & Mobiles</span>
-                    <span><i class="fa-solid fa-circle-check"></i> +120 Pays Couverts</span>
-                    <span><i class="fa-solid fa-circle-check"></i> Qualité HD</span>
+                    <span><i class="fa-solid fa-circle-check"></i> <span data-key="metric_lines">Lignes Fixes & Mobiles</span></span>
+                    <span><i class="fa-solid fa-circle-check"></i> <span data-key="metric_countries">+120 Pays Couverts</span></span>
+                    <span><i class="fa-solid fa-circle-check"></i> <span data-key="metric_quality">Qualité HD</span></span>
                 </div>
             </div>
             
@@ -461,7 +520,7 @@
                             
                             <div class="mockup-window-header">
                                 <div class="window-dots"><span></span><span></span><span></span></div>
-                                <div class="window-url-bar" id="mockupRoute">morsodial.com/dialer</div>
+                                <div class="window-url-bar" id="mockupRoute">morsodial.com/predictive-dialer</div>
                                 <div class="window-story-progress">
                                     <span class="progress-indicator-bar" id="dot-0"></span>
                                     <span class="progress-indicator-bar" id="dot-1"></span>
@@ -478,15 +537,15 @@
                                             <div class="radar-pulse-ring"></div>
                                             <i class="fa-solid fa-phone-volume radar-main-icon"></i>
                                         </div>
-                                        <div class="widget-lbl">Numérotation en cours...</div>
+                                        <div class="widget-lbl" data-key="mockup_calling">Numérotation en cours...</div>
                                         <div style="font-size: 14px; font-weight: 700; color: var(--teal);">+33 6 12 AA BB CC</div>
                                     </div>
                                 </div>
 
                                 <div class="viewport-slide" id="screen-1">
                                     <div class="widget-box">
-                                        <div style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 3px 8px; border-radius: 20px; font-size: 9px; font-weight: 700; margin: 0 auto 10px auto; width: fit-content;">REC EN COURS</div>
-                                        <div style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Prospect International</div>
+                                        <div style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 3px 8px; border-radius: 20px; font-size: 9px; font-weight: 700; margin: 0 auto 10px auto; width: fit-content;" data-key="mockup_rec">REC EN COURS</div>
+                                        <div style="font-size: 13px; font-weight: 600; margin-bottom: 5px;" data-key="mockup_lead">Prospect International</div>
                                         <div class="wave-animation-box">
                                             <span class="wave-bar-element"></span><span class="wave-bar-element"></span><span class="wave-bar-element"></span><span class="wave-bar-element"></span>
                                         </div>
@@ -496,13 +555,13 @@
                                 <div class="viewport-slide" id="screen-2">
                                     <div class="success-box-element">
                                         <div class="success-check-circle"><i class="fa-solid fa-handshake"></i></div>
-                                        <h4 style="color:#16a34a; font-size:13px;">Accord Trouvé !</h4>
+                                        <h4 style="color:#16a34a; font-size:13px;" data-key="mockup_success">Accord Trouvé !</h4>
                                     </div>
                                 </div>
 
                                 <div class="viewport-slide" id="screen-3">
                                     <div class="chart-box-element">
-                                        <div style="font-size:9px; color:#64748b; font-weight:600;">CA Réalisé ce mois</div>
+                                        <div style="font-size:9px; color:#64748b; font-weight:600;" data-key="mockup_revenue">CA Réalisé ce mois</div>
                                         <div style="font-size: 17px; font-weight: 700; margin: 2px 0 6px 0; color: var(--navy);">42 850 €</div>
                                         <div class="chart-svg-draw">
                                             <svg style="width:100%; height:100%;" viewBox="0 0 300 100" preserveAspectRatio="none">
@@ -522,31 +581,31 @@
 
     <section id="telephony" class="telephony-section">
         <div class="section-center-head">
-            <span class="sub-title-tag">CONNECTIVITÉ GLOBALE</span>
-            <h2>Une infrastructure télécom complète pour vos agents</h2>
-            <p>Morsodial gère l'intégralité de vos télécoms fixes et mobiles.</p>
+            <span class="sub-title-tag" data-key="tel_section_tag">CONNECTIVITÉ GLOBALE</span>
+            <h2 data-key="tel_section_title">Une infrastructure télécom complète pour vos agents</h2>
+            <p data-key="tel_section_desc">Morsodial gère l'intégralité de vos télécoms fixes et mobiles.</p>
         </div>
         <div class="telephony-cards-grid">
             <div class="telecom-card">
                 <div>
                     <div class="t-icon"><i class="fa-solid fa-phone"></i></div>
-                    <h3>Lignes Fixes Locales</h3>
-                    <p>Affichent un numéro fixe local pour rassurer vos prospects.</p>
+                    <h3 data-key="tel_card1_title">Lignes Fixes Locales</h3>
+                    <p data-key="tel_card1_desc">Affichent un numéro fixe local pour rassurer vos prospects.</p>
                 </div>
                 <ul class="card-bullets">
-                    <li><i class="fa-solid fa-circle-play"></i> Numéros géographiques</li>
-                    <li><i class="fa-solid fa-circle-play"></i> Tarifs d'appels compétitifs</li>
+                    <li><i class="fa-solid fa-circle-play"></i> <span data-key="tel_card1_b1">Numéros géographiques</span></li>
+                    <li><i class="fa-solid fa-circle-play"></i> <span data-key="tel_card1_b2">Tarifs d'appels compétitifs</span></li>
                 </ul>
             </div>
             <div class="telecom-card highlighted-teal">
                 <div>
                     <div class="t-icon"><i class="fa-solid fa-mobile-button"></i></div>
-                    <h3>Lignes Mobiles Dédiées</h3>
-                    <p>Morsodial vous fournit de véritables numéros mobiles pour vos campagnes d'appels et de SMS.</p>
+                    <h3 data-key="tel_card2_title">Lignes Mobiles Dédiées</h3>
+                    <p data-key="tel_card2_desc">Morsodial vous fournit de véritables numéros mobiles pour vos campagnes d'appels et de SMS.</p>
                 </div>
                 <ul class="card-bullets">
-                    <li><i class="fa-solid fa-circle-play"></i> Numéros mobiles internationaux</li>
-                    <li><i class="fa-solid fa-circle-play"></i> Parfait pour les SMS/Rappels</li>
+                    <li><i class="fa-solid fa-circle-play"></i> <span data-key="tel_card2_b1">Numéros mobiles internationaux</span></li>
+                    <li><i class="fa-solid fa-circle-play"></i> <span data-key="tel_card2_b2">Parfait pour les SMS/Rappels</span></li>
                 </ul>
             </div>
         </div>
@@ -554,68 +613,68 @@
 
     <section id="features" class="features-section">
         <div class="section-center-head">
-            <span class="sub-title-tag">PILOTAGE EN TEMPS RÉEL</span>
-            <h2>Conçu pour doubler les performances de vos équipes</h2>
+            <span class="sub-title-tag" data-key="feat_section_tag">PILOTAGE EN TEMPS RÉEL</span>
+            <h2 data-key="feat_section_title">Conçu pour doubler les performances de vos équipes</h2>
         </div>
         <div class="ringover-grid">
             <div class="f-block">
                 <div class="f-block-icon"><i class="fa-solid fa-bolt"></i></div>
-                <h3>Predictive Dialer</h3>
-                <p>Notre système compose les numéros en masse et transfère uniquement les appels répondus.</p>
+                <h3 data-key="feat_block1_title">Predictive Dialer</h3>
+                <p data-key="feat_block1_desc">Notre système compose les numéros en masse et transfère uniquement les appels répondus.</p>
             </div>
             <div class="f-block">
                 <div class="f-block-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
-                <h3>Historique & Fiches Leads</h3>
-                <p>Chaque appel fixe ou mobile est enregistré et associé à une fiche client.</p>
+                <h3 data-key="feat_block2_title">Historique & Fiches Leads</h3>
+                <p data-key="feat_block2_desc">Chaque appel fixe ou mobile est enregistré et associé à une fiche client.</p>
             </div>
             <div class="f-block">
                 <div class="f-block-icon"><i class="fa-solid fa-ear-listen"></i></div>
-                <h3>Double Écoute</h3>
-                <p>Écoutez les conversations discrètement et soufflez des conseils à vos agents en ligne.</p>
+                <h3 data-key="feat_block3_title">Double Écoute</h3>
+                <p data-key="feat_block3_desc">Écoutez les conversations discrètement et soufflez des conseils à vos agents en ligne.</p>
             </div>
         </div>
     </section>
 
     <section id="pricing" class="pricing-section">
         <div class="section-center-head">
-            <h2>Une tarification claire et adaptée à vos destinations cibles</h2>
+            <h2 data-key="price_section_title">Une tarification claire et adaptée à vos destinations cibles</h2>
         </div>
         <div class="pricing-grid-ringover">
             <div class="price-card">
                 <div>
-                    <div class="flag-header"><img src="https://flagcdn.com/w40/fr.png" alt="France"><h3>Zone France</h3></div>
-                    <div class="cost">85€ <span>/ log / illimité</span></div>
-                    <p class="p-explain">Lignes fixes & mobiles françaises pour une couverture totale.</p>
+                    <div class="flag-header"><img src="https://flagcdn.com/w40/fr.png" alt="France"><h3><span data-key="zone_fr">Zone France</span></h3></div>
+                    <div class="cost">85€ <span data-key="per_license">/ log / illimité</span></div>
+                    <p class="p-explain" data-key="price_card1_desc">Lignes fixes & mobiles françaises pour une couverture totale.</p>
                     <ul class="p-features">
-                        <li><i class="fa-solid fa-check"></i> Appels Fixes et Mobiles illimités</li>
-                        <li><i class="fa-solid fa-check"></i> Predictive Dialer & CRM inclus</li>
+                        <li><i class="fa-solid fa-check"></i> <span data-key="price_card1_f1">Appels Fixes et Mobiles illimités</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-key="price_card1_f2">Predictive Dialer & CRM inclus</span></li>
                     </ul>
                 </div>
-                <button onclick="openModalWithCountry('France')" class="btn-navy-full">S'inscrire (France)</button>
+                <button onclick="openModalWithCountry('France')" class="btn-navy-full"><span data-key="price_btn_fr">S'inscrire (France)</span></button>
             </div>
             <div class="price-card">
                 <div>
-                    <div class="flag-header"><img src="https://flagcdn.com/w40/ca.png" alt="Canada"><h3>Zone Canada</h3></div>
-                    <div class="cost">50€ <span>/ log / illimité</span></div>
-                    <p class="p-explain">Idéal pour vos campagnes d'appels sortants vers l'Amérique du Nord.</p>
+                    <div class="flag-header"><img src="https://flagcdn.com/w40/ca.png" alt="Canada"><h3><span data-key="zone_ca">Zone Canada</span></h3></div>
+                    <div class="cost">50€ <span data-key="per_license">/ log / illimité</span></div>
+                    <p class="p-explain" data-key="price_card2_desc">Idéal pour vos campagnes d'appels sortants vers l'Amérique du Nord.</p>
                     <ul class="p-features">
-                        <li><i class="fa-solid fa-check"></i> Appels Fixes et Mobiles illimités</li>
-                        <li><i class="fa-solid fa-check"></i> Predictive Dialer & CRM inclus</li>
+                        <li><i class="fa-solid fa-check"></i> <span data-key="price_card1_f1">Appels Fixes et Mobiles illimités</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-key="price_card1_f2">Predictive Dialer & CRM inclus</span></li>
                     </ul>
                 </div>
-                <button onclick="openModalWithCountry('Canada')" class="btn-navy-full">S'inscrire (Canada)</button>
+                <button onclick="openModalWithCountry('Canada')" class="btn-navy-full"><span data-key="price_btn_ca">S'inscrire (Canada)</span></button>
             </div>
             <div class="price-card">
                 <div>
-                    <div class="flag-header"><img src="https://flagcdn.com/w40/be.png" alt="Belgique"><img src="https://flagcdn.com/w40/ch.png" alt="Suisse" style="margin-left:4px;"><h3>Belgique / Suisse</h3></div>
-                    <div class="cost">9,99€ <span>/ log / mois</span></div>
-                    <p class="p-explain">Accès CRM & Dialer complet. La voix est facturée au compteur (Pay As You Go).</p>
+                    <div class="flag-header"><img src="https://flagcdn.com/w40/be.png" alt="Belgique"><img src="https://flagcdn.com/w40/ch.png" alt="Suisse" style="margin-left:4px;"><h3><span data-key="zone_be_ch">Belgique / Suisse</span></h3></div>
+                    <div class="cost">9,99€ <span data-key="per_month">/ log / mois</span></div>
+                    <p class="p-explain" data-key="price_card3_desc">Accès CRM & Dialer complet. La voix est facturée au compteur (Pay As You Go).</p>
                     <ul class="p-features">
-                        <li><i class="fa-solid fa-check"></i> Idéal pour gérer vos budgets</li>
-                        <li><i class="fa-solid fa-check"></i> Recharges faciles depuis votre interface</li>
+                        <li><i class="fa-solid fa-check"></i> <span data-key="price_card3_f1">Idéal pour gérer vos budgets</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-key="price_card3_f2">Recharges faciles depuis votre interface</span></li>
                     </ul>
                 </div>
-                <button onclick="openModalWithCountry('Suisse')" class="btn-corail-full">S'inscrire (Pay As You Go)</button>
+                <button onclick="openModalWithCountry('Suisse')" class="btn-corail-full"><span data-key="price_btn_payg">S'inscrire (Pay As You Go)</span></button>
             </div>
         </div>
     </section>
@@ -627,85 +686,402 @@
                     <div class="logo-symbol"><span class="line"></span><span class="line text-short"></span><span class="dot-corail"></span></div>
                     Morsodial
                 </div>
-                <p>Opérateur et éditeur de solutions de communication cloud pour centres d'appels ambitieux.</p>
+                <p data-key="footer_desc">Opérateur et éditeur de solutions de communication cloud pour centres d'appels ambitieux.</p>
             </div>
             <div>
-                <h4>Nous contacter</h4>
+                <h4 data-key="footer_contact">Nous contacter</h4>
                 <ul class="footer-contact-list">
                     <li><i class="fa-solid fa-phone"></i><span>+212 600 000 000</span></li>
                     <li><i class="fa-solid fa-envelope"></i><a href="mailto:contact@morsodial.com">contact@morsodial.com</a></li>
-                    <li><i class="fa-solid fa-location-dot"></i><span>Tit Mellil, Casablanca, Maroc</span></li>
+                    <li><i class="fa-solid fa-location-dot"></i><span data-key="footer_address">Tit Mellil, Casablanca, Maroc</span></li>
                 </ul>
             </div>
             <div>
-                <h4>Suivez-nous</h4>
+                <h4 data-key="footer_follow">Suivez-nous</h4>
                 <div class="social-icons-box">
-                    <a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Morsodial. Tous droits réservés.</p>
+            <p>&copy; 2026 Morsodial. <span data-key="footer_rights">Tous droits réservés.</span></p>
         </div>
     </footer>
 
     <div id="devis-modal" class="modal-overlay">
         <div class="modal-window">
             <div class="modal-header">
-                <h3><i class="fa-solid fa-user-plus"></i> Formulaire d'Inscription</h3>
+                <h3><i class="fa-solid fa-user-plus"></i> <span data-key="modal_title">Formulaire d'Inscription</span></h3>
                 <button class="close-modal-btn" onclick="closeModal()">&times;</button>
             </div>
             <div class="modal-body">
                 <form id="registrationForm" class="devis-form" onsubmit="event.preventDefault(); closeModal();">
                     <div class="form-row">
-                        <div class="form-group"><label>Nom de l'entreprise *</label><input type="text" placeholder="Ex: Call Center International" required></div>
-                        <div class="form-group"><label>Nombre de positions *</label><input type="number" id="positions" value="1" min="1" required oninput="calculateTotalPrice()"></div>
+                        <div class="form-group"><label data-key="lbl_company">Nom de l'entreprise *</label><input type="text" placeholder="Ex: Call Center International" required></div>
+                        <div class="form-group"><label data-key="lbl_positions">Nombre de positions *</label><input type="number" id="positions" value="1" min="1" required oninput="calculateTotalPrice()"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>Nom complet du responsable *</label><input type="text" placeholder="Ex: Anas El khadir" required></div>
-                        <div class="form-group"><label>Adresse email professionnelle *</label><input type="email" placeholder="Ex: a.elkhadir@entreprise.com" required></div>
+                        <div class="form-group"><label data-key="lbl_manager">Nom complet du responsable *</label><input type="text" placeholder="Ex: Anas El khadir" required></div>
+                        <div class="form-group"><label data-key="lbl_email">Adresse email professionnelle *</label><input type="email" placeholder="Ex: a.elkhadir@entreprise.com" required></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>Numéro de Téléphone *</label><input type="tel" placeholder="Ex: +212 600 000 000" required></div>
+                        <div class="form-group"><label data-key="lbl_phone">Numéro de Téléphone *</label><input type="tel" placeholder="Ex: +212 600 000 000" required></div>
                         <div class="form-group">
-                            <label>Type de lignes souhaitées *</label>
-                            <select required>
-                                <option value="mixte">Mixte (Fixes & Mobiles)</option>
-                                <option value="fixes">Fixes Uniquement</option>
-                                <option value="mobiles">Mobiles Uniquement</option>
+                            <label data-key="lbl_line_type">Type de lignes souhaitées *</label>
+                            <select required id="lineTypeSelect">
+                                <option value="mixte" data-key="opt_mixed">Mixte (Fixes & Mobiles)</option>
+                                <option value="fixes" data-key="opt_fixed">Fixes Uniquement</option>
+                                <option value="mobiles" data-key="opt_mobile">Mobiles Uniquement</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Pays ciblé pour vos campagnes d'appels *</label>
+                        <label data-key="lbl_target_country">Pays ciblé pour vos campagnes d'appels *</label>
                         <div class="ringover-dropdown" id="countryDropdown">
                             <div class="dropdown-trigger" id="dropdownTriggerBtn">
-                                <span id="selected-country"><img src="https://flagcdn.com/w40/fr.png" class="flag-icon" alt="France"> France</span>
+                                <span id="selected-country"><img src="https://flagcdn.com/w40/fr.png" class="flag-icon" alt="France"> <span data-key="country_fr">France</span></span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <div class="dropdown-menu">
-                                <div class="dropdown-item" data-value="France" data-code="fr"><img src="https://flagcdn.com/w40/fr.png" class="flag-icon" alt="France"> France</div>
-                                <div class="dropdown-item" data-value="Belgique" data-code="be"><img src="https://flagcdn.com/w40/be.png" class="flag-icon" alt="Belgique"> Belgique</div>
-                                <div class="dropdown-item" data-value="Canada" data-code="ca"><img src="https://flagcdn.com/w40/ca.png" class="flag-icon" alt="Canada"> Canada</div>
-                                <div class="dropdown-item" data-value="Suisse" data-code="ch"><img src="https://flagcdn.com/w40/ch.png" class="flag-icon" alt="Suisse"> Suisse</div>
+                                <div class="dropdown-item" data-value="France" data-code="fr"><img src="https://flagcdn.com/w40/fr.png" class="flag-icon" alt="France"> <span data-key="country_fr">France</span></div>
+                                <div class="dropdown-item" data-value="Belgique" data-code="be"><img src="https://flagcdn.com/w40/be.png" class="flag-icon" alt="Belgique"> <span data-key="country_be">Belgique</span></div>
+                                <div class="dropdown-item" data-value="Canada" data-code="ca"><img src="https://flagcdn.com/w40/ca.png" class="flag-icon" alt="Canada"> <span data-key="country_ca">Canada</span></div>
+                                <div class="dropdown-item" data-value="Suisse" data-code="ch"><img src="https://flagcdn.com/w40/ch.png" class="flag-icon" alt="Suisse"> <span data-key="country_ch">Suisse</span></div>
                             </div>
                         </div>
                         <input type="hidden" id="countries" value="France">
                     </div>
                     <div class="live-price-box">
-                        <div class="live-price-title"><span>Prix estimé de votre abonnement :</span><span class="live-price-amount" id="computed-price">85,00 € / mois</span></div>
-                        <div class="live-price-detail">Inclus : La licence CRM d'appel ainsi que la voix illimitée vers la zone sélectionnée.</div>
+                        <div class="live-price-title"><span data-key="box_price_title">Prix estimé de votre abonnement :</span><span class="live-price-amount" id="computed-price">85,00 € / mois</span></div>
+                        <div class="live-price-detail" data-key="box_price_detail">Inclus : La licence CRM d'appel ainsi que la voix illimitée vers la zone sélectionnée.</div>
                     </div>
-                    <button type="submit" class="btn-corail-submit">Passer au paiement <i class="fa-solid fa-credit-card"></i></button>
+                    <button type="submit" class="btn-corail-submit"><span data-key="btn_checkout">Passer au paiement</span> <i class="fa-solid fa-credit-card"></i></button>
                 </form>
             </div>
         </div>
     </div>
 
     <script>
-        // Storytelling Maquette Animée
+        // --- DICTIONNAIRE DE TRADUCTION COMPLET ---
+        const translations = {
+            FR: {
+                top_banner: "🚀 Nouveau : Déployez vos lignes mobiles et fixes internationales en moins de 5 minutes !",
+                nav_telephony: "Notre Téléphonie",
+                nav_features: "Fonctionnalités",
+                nav_pricing: "Tarifs",
+                btn_login: "Connexion",
+                btn_register: "S'inscrire",
+                mobile_lang_lbl: "Langue",
+                mobile_dark_lbl: "Mode Sombre",
+                hero_badge: "Téléphonie d'entreprise Cloud",
+                hero_title: "Le système d'appel tout-en-un pour booster vos ventes",
+                hero_desc: "Morsodial combine un dialer prédictif surpuissant et la fourniture de vos lignes téléphoniques professionnelles partout dans le monde. Donnez à vos équipes les outils pour prospecter sans limites.",
+                hero_btn_register: "S'inscrire immédiatement",
+                hero_btn_offers: "Voir nos offres de lignes",
+                metric_lines: "Lignes Fixes & Mobiles",
+                metric_countries: "+120 Pays Couverts",
+                metric_quality: "Qualité HD",
+                mockup_calling: "Numérotation en cours...",
+                mockup_rec: "REC EN COURS",
+                mockup_lead: "Prospect International",
+                mockup_success: "Accord Trouvé !",
+                mockup_revenue: "CA Réalisé ce mois",
+                tel_section_tag: "CONNECTIVITÉ GLOBALE",
+                tel_section_title: "Une infrastructure télécom complète pour vos agents",
+                tel_section_desc: "Morsodial gère l'intégralité de vos télécoms fixes et mobiles.",
+                tel_card1_title: "Lignes Fixes Locales",
+                tel_card1_desc: "Affichent un numéro fixe local pour rassurer vos prospects.",
+                tel_card1_b1: "Numéros géographiques",
+                tel_card1_b2: "Tarifs d'appels compétitifs",
+                tel_card2_title: "Lignes Mobiles Dédiées",
+                tel_card2_desc: "Morsodial vous fournit de véritables numéros mobiles pour vos campagnes d'appels et de SMS.",
+                tel_card2_b1: "Numéros mobiles internationaux",
+                tel_card2_b2: "Parfait pour les SMS/Rappels",
+                feat_section_tag: "PILOTAGE EN TEMPS RÉEL",
+                feat_section_title: "Conçu pour doubler les performances de vos équipes",
+                feat_block1_title: "Predictive Dialer",
+                feat_block1_desc: "Notre système compose les numéros en masse et transfère uniquement les appels répondus.",
+                feat_block2_title: "Historique & Fiches Leads",
+                feat_block2_desc: "Chaque appel fixe ou mobile est enregistré et associé à une fiche client.",
+                feat_block3_title: "Double Écoute",
+                feat_block3_desc: "Écoutez les conversations discrètement et soufflez des conseils à vos agents en ligne.",
+                price_section_title: "Une tarification claire et adaptée à vos destinations cibles",
+                zone_fr: "Zone France",
+                zone_ca: "Zone Canada",
+                zone_be_ch: "Belgique / Suisse",
+                per_license: "/ log / illimité",
+                per_month: "/ log / mois",
+                price_card1_desc: "Lignes fixes & mobiles françaises pour une couverture totale.",
+                price_card1_f1: "Appels Fixes et Mobiles illimités",
+                price_card1_f2: "Predictive Dialer & CRM inclus",
+                price_card2_desc: "Idéal pour vos campagnes d'appels sortants vers l'Amérique du Nord.",
+                price_card3_desc: "Accès CRM & Dialer complet. La voix est facturée au compteur (Pay As You Go).",
+                price_card3_f1: "Idéal pour gérer vos budgets",
+                price_card3_f2: "Recharges faciles depuis votre interface",
+                price_btn_fr: "S'inscrire (France)",
+                price_btn_ca: "S'inscrire (Canada)",
+                price_btn_payg: "S'inscrire (Pay As You Go)",
+                footer_desc: "Opérateur et éditeur de solutions de communication cloud pour centres d'appels ambitieux.",
+                footer_contact: "Nous contacter",
+                footer_address: "Tit Mellil, Casablanca, Maroc",
+                footer_follow: "Suivez-nous",
+                footer_rights: "Tous droits réservés.",
+                modal_title: "Formulaire d'Inscription",
+                lbl_company: "Nom de l'entreprise *",
+                lbl_positions: "Nombre de positions *",
+                lbl_manager: "Nom complet du responsable *",
+                lbl_email: "Adresse email professionnelle *",
+                lbl_phone: "Numéro de Téléphone *",
+                lbl_line_type: "Type de lignes souhaitées *",
+                opt_mixed: "Mixte (Fixes & Mobiles)",
+                opt_fixed: "Fixes Uniquement",
+                opt_mobile: "Mobiles Uniquement",
+                lbl_target_country: "Pays ciblé pour vos campagnes d'appels *",
+                country_fr: "France",
+                country_be: "Belgique",
+                country_ca: "Canada",
+                country_ch: "Suisse",
+                box_price_title: "Prix estimé de votre abonnement :",
+                box_price_detail: "Inclus : La licence CRM d'appel ainsi que la voix illimitée vers la zone sélectionnée.",
+                btn_checkout: "Passer au paiement"
+            },
+            EN: {
+                top_banner: "🚀 New: Deploy your international mobile and landline numbers in less than 5 minutes!",
+                nav_telephony: "Our Telephony",
+                nav_features: "Features",
+                nav_pricing: "Pricing",
+                btn_login: "Login",
+                btn_register: "Register",
+                mobile_lang_lbl: "Language",
+                mobile_dark_lbl: "Dark Mode",
+                hero_badge: "Cloud Business Telephony",
+                hero_title: "The all-in-one calling system to boost your sales",
+                hero_desc: "Morsodial combines a powerful predictive dialer and worldwide professional phone lines supply. Give your teams the perfect tools to prospect without limits.",
+                hero_btn_register: "Register Immediately",
+                hero_btn_offers: "View Line Offers",
+                metric_lines: "Landlines & Mobile Lines",
+                metric_countries: "+120 Covered Countries",
+                metric_quality: "HD Voice Quality",
+                mockup_calling: "Dialing in progress...",
+                mockup_rec: "REC IN PROGRESS",
+                mockup_lead: "International Lead",
+                mockup_success: "Deal Closed!",
+                mockup_revenue: "Revenue Generated This Month",
+                tel_section_tag: "GLOBAL CONNECTIVITY",
+                tel_section_title: "A complete telecom infrastructure for your agents",
+                tel_section_desc: "Morsodial handles all your landlines and mobile communications.",
+                tel_card1_title: "Local Landlines",
+                tel_card1_desc: "Display a local landline number to build customer trust.",
+                tel_card1_b1: "Geographic numbers",
+                tel_card1_b2: "Competitive calling rates",
+                tel_card2_title: "Dedicated Mobile Lines",
+                tel_card2_desc: "Morsodial provides real mobile numbers for your calling and SMS campaigns.",
+                tel_card2_b1: "International mobile numbers",
+                tel_card2_b2: "Perfect for SMS/Callbacks",
+                feat_section_tag: "REAL-TIME MONITORING",
+                feat_section_title: "Engineered to double your team's performances",
+                feat_block1_title: "Predictive Dialer",
+                feat_block1_desc: "Our system auto-dials leads in bulk and transfers answered calls only.",
+                feat_block2_title: "History & Lead Records",
+                feat_block2_desc: "Every landline or mobile call is recorded and linked to a client sheet.",
+                feat_block3_title: "Call Monitoring",
+                feat_block3_desc: "Listen to calls discreetly and whisper helpful advice to agents live on line.",
+                price_section_title: "Clear pricing adapted to your target destinations",
+                zone_fr: "France Zone",
+                zone_ca: "Canada Zone",
+                zone_be_ch: "Belgium / Switzerland",
+                per_license: "/ user / unlimited",
+                per_month: "/ user / month",
+                price_card1_desc: "French landlines & mobile lines for full coverage.",
+                price_card1_f1: "Unlimited landline & mobile calls",
+                price_card1_f2: "Predictive Dialer & CRM included",
+                price_card2_desc: "Ideal for outbound call campaigns to North America.",
+                price_card3_desc: "Full CRM & Dialer access. Voice calls are charged per minute (Pay As You Go).",
+                price_card3_f1: "Ideal for budget management",
+                price_card3_f2: "Easy wallet top-ups from your dashboard",
+                price_btn_fr: "Sign Up (France)",
+                price_btn_ca: "Sign Up (Canada)",
+                price_btn_payg: "Sign Up (Pay As You Go)",
+                footer_desc: "Telecom carrier and cloud communication software provider for ambitious call centers.",
+                footer_contact: "Contact us",
+                footer_address: "Tit Mellil, Casablanca, Morocco",
+                footer_follow: "Follow us",
+                footer_rights: "All rights reserved.",
+                modal_title: "Registration Form",
+                lbl_company: "Company Name *",
+                lbl_positions: "Number of Seats *",
+                lbl_manager: "Manager Full Name *",
+                lbl_email: "Business Email Address *",
+                lbl_phone: "Phone Number *",
+                lbl_line_type: "Desired Line Types *",
+                opt_mixed: "Mixed (Landlines & Mobiles)",
+                opt_fixed: "Landlines Only",
+                opt_mobile: "Mobiles Only",
+                lbl_target_country: "Target Campaign Country *",
+                country_fr: "France",
+                country_be: "Belgium",
+                country_ca: "Canada",
+                country_ch: "Switzerland",
+                box_price_title: "Estimated Subscription Price:",
+                box_price_detail: "Included: Predictive calling CRM license and unlimited voice to the selected area.",
+                btn_checkout: "Proceed to Payment"
+            },
+            AR: {
+                top_banner: "🚀 جديد: قم بنشر خطوطك الأرضية والمحمولة الدولية في أقل من 5 دقائق!",
+                nav_telephony: "اتصالاتنا",
+                nav_features: "المميزات",
+                nav_pricing: "الأسعار",
+                btn_login: "تسجيل الدخول",
+                btn_register: "إنشاء حساب",
+                mobile_lang_lbl: "اللغة",
+                mobile_dark_lbl: "الوضع الداكن",
+                hero_badge: "اتصالات الشركات السحابية",
+                hero_title: "نظام اتصالات متكامل لتعزيز مبيعاتك",
+                hero_desc: "تجمع مورسوديال بين نظام الاتصال التلقائي عالي الكفاءة وتوفير خطوط الهاتف المهنية في جميع أنحاء العالم. امنح فرقك الأدوات اللازمة للبحث عن العملاء دون حدود.",
+                hero_btn_register: "سجل الآن فوراً",
+                hero_btn_offers: "عرض باقات الخطوط",
+                metric_lines: "خطوط أرضية ومحمولة",
+                metric_countries: "+120 دولة مغطاة",
+                metric_quality: "جودة صوت عالية HD",
+                mockup_calling: "جاري الاتصال الآن...",
+                mockup_rec: "جاري التسجيل",
+                mockup_lead: "عميل دولي",
+                mockup_success: "تم الاتفاق بنجاح!",
+                mockup_revenue: "الإيرادات المحققة هذا الشهر",
+                tel_section_tag: "ربط عالمي",
+                tel_section_title: "بنية تحتية كاملة للاتصالات لوكلائك",
+                tel_section_desc: "تدير مورسوديال جميع اتصالاتك الأرضية والمحمولة بالكامل.",
+                tel_card1_title: "الخطوط الأرضية المحلية",
+                tel_card1_desc: "تعرض رقماً أرضياً محلياً لطمأنة عملائك المحتملين.",
+                tel_card1_b1: "أرقام جغرافية محلية",
+                tel_card1_b2: "تعرفات اتصال تنافسية",
+                tel_card2_title: "خطوط محمولة مخصصة",
+                tel_card2_desc: "توفر لك مورسوديال أرقام هواتف محمولة حقيقية لحملات الاتصال والرسائل النصية قصيرة.",
+                tel_card2_b1: "أرقام محمولة دولية",
+                tel_card2_b2: "مثالية للرسائل القصيرة وإعادة الاتصال",
+                feat_section_tag: "التوجيه والتحكم الآني",
+                feat_section_title: "مصمم لمضاعفة أداء فرق العمل لديك",
+                feat_block1_title: "Predictive Dialer (الاتصال التنبئي)",
+                feat_block1_desc: "يقوم نظامنا بطلب الأرقام تلقائياً بشكل جماعي وتحويل المكالمات التي تم الرد عليها فقط.",
+                feat_block2_title: "سجل المكالمات وبيانات العملاء",
+                feat_block2_desc: "يتم تسجيل كل مكالمة أرضية أو محمولة وربطها بملف تعريف العميل.",
+                feat_block3_title: "التنصت والمراقبة المزدوجة",
+                feat_block3_desc: "استمع إلى المحادثات بسرية وقدم نصائح فورية لوكلائك أثناء المكالمة.",
+                price_section_title: "أسعار واضحة ومناسبة لوجهاتك المستهدفة",
+                zone_fr: "منطقة فرنسا",
+                zone_ca: "منطقة كندا",
+                zone_be_ch: "بلجيكا / سويسرا",
+                per_license: "/ مستخدم / غير محدود",
+                per_month: "/ مستخدم / شهرياً",
+                price_card1_desc: "خطوط أرضية ومحمولة فرنسية لتغطية شاملة كاملة.",
+                price_card1_f1: "مكالمات غير محدودة للأرضي والمحمول",
+                price_card1_f2: "برنامج Dialer ونظام CRM مشمولان",
+                price_card2_desc: "مثالية لحملات المكالمات الصادرة الموجهة إلى أمريكا الشمالية.",
+                price_card3_desc: "وصول كامل لنظام CRM والطلب التلقائي. يتم احتساب تكلفة الصوت حسب الاستهلاك.",
+                price_card3_f1: "مثالية لإدارة ميزانيتك بدقة",
+                price_card3_f2: "شحن رصيد سهل مباشرة من واجهتك الخاصه",
+                price_btn_fr: "اشتراك (فرنسا)",
+                price_btn_ca: "اشتراك (كندا)",
+                price_btn_payg: "اشتراك (الدفع حسب الاستهلاك)",
+                footer_desc: "مشغل ومطور حلول الاتصالات السحابية لمراكز الاتصال الطموحة.",
+                footer_contact: "اتصل بنا",
+                footer_address: "سيدي حجاج واد حصار، تيط مليل، الدار البيضاء، المغرب",
+                footer_follow: "تابعنا على",
+                footer_rights: "جميع الحقوق محفوظة.",
+                modal_title: "نموذج التسجيل",
+                lbl_company: "اسم الشركة *",
+                lbl_positions: "عدد المقاعد / الوكلاء *",
+                lbl_manager: "الاسم الكامل للمسؤول *",
+                lbl_email: "البريد الإلكتروني المهني *",
+                lbl_phone: "رقم الهاتف *",
+                lbl_line_type: "نوع الخطوط المطلوبة *",
+                opt_mixed: "مشترك (أرضي ومحمول)",
+                opt_fixed: "خطوط أرضية فقط",
+                opt_mobile: "خطوط محمولة فقط",
+                lbl_target_country: "البلد المستهدف لحملاتك *",
+                country_fr: "فرنسا",
+                country_be: "بلجيكا",
+                country_ca: "كندا",
+                country_ch: "سويسرا",
+                box_price_title: "السعر التقديري لاشتراكك:",
+                box_price_detail: "مشمول: رخصة نظام CRM للاتصال بالإضافة إلى دقائق صوتية غير محدودة للمنطقة المختارة.",
+                btn_checkout: "الانتقال إلى الدفع"
+            }
+        };
+
+        // --- MOTEUR DE TRADUCTION ---
+        function changeLanguage(lang) {
+            // 1. Mettre à jour tous les éléments standards avec data-key
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            // 2. Mettre à jour les directions d'écriture (RTL pour l'Arabe, LTR pour les autres)
+            if (lang === 'AR') {
+                document.documentElement.setAttribute('dir', 'rtl');
+                document.documentElement.setAttribute('lang', 'ar');
+            } else {
+                document.documentElement.setAttribute('dir', 'ltr');
+                document.documentElement.setAttribute('lang', lang.toLowerCase());
+            }
+
+            // 3. Sauvegarder la langue
+            localStorage.setItem('morsodial_lang', lang);
+        }
+
+        // Événement clic : Sélecteur Desktop
+        document.querySelectorAll('.lang-dropdown-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const selectedLang = this.getAttribute('data-lang');
+                const selectedFlag = this.getAttribute('data-flag');
+                
+                document.getElementById('headerCurrentLangText').innerText = selectedLang;
+                document.getElementById('headerCurrentFlag').src = `https://flagcdn.com/w40/${selectedFlag}.png`;
+                
+                // Mettre à jour le select mobile par synchronisation
+                document.getElementById('mobileLangSelect').value = selectedLang;
+                
+                changeLanguage(selectedLang);
+                document.getElementById('headerLangSelector').classList.remove('open');
+            });
+        });
+
+        // Événement changement : Sélecteur Mobile (Select)
+        const mobileLangSelect = document.getElementById('mobileLangSelect');
+        mobileLangSelect.addEventListener('change', function(e) {
+            const selectedLang = e.target.value;
+            let flagCode = selectedLang === 'EN' ? 'gb' : selectedLang === 'AR' ? 'ma' : 'fr';
+            
+            // Synchroniser le bandeau desktop d'en haut
+            document.getElementById('headerCurrentLangText').innerText = selectedLang;
+            document.getElementById('headerCurrentFlag').src = `https://flagcdn.com/w40/${flagCode}.png`;
+            
+            changeLanguage(selectedLang);
+        });
+
+        // Initialisation de la langue par défaut au chargement
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('morsodial_lang') || 'FR';
+            
+            // Appliquer l'état visuel sur les déclencheurs
+            let flagCode = savedLang === 'EN' ? 'gb' : savedLang === 'AR' ? 'ma' : 'fr';
+            document.getElementById('headerCurrentLangText').innerText = savedLang;
+            document.getElementById('headerCurrentFlag').src = `https://flagcdn.com/w40/${flagCode}.png`;
+            mobileLangSelect.value = savedLang;
+            
+            changeLanguage(savedLang);
+        });
+
+
+        // --- LOGIQUE ANIMATION MACBOOK DE STORYTELLING ---
         const totalSteps = 4;
         let currentStep = 0;
         const routes = ["morsodial.com/predictive-dialer", "morsodial.com/call-recording", "morsodial.com/crm-pipeline", "morsodial.com/analytics-dashboard"];
@@ -716,16 +1092,36 @@
                 const dt = document.getElementById(`dot-${i}`);
                 if (scr) scr.classList.remove('active');
                 if (dt) dt.classList.remove('active', 'completed');
-                if (i < currentStep && dt) dt.classList.add('completed');
+                
+                if (i < currentStep && dt) {
+                    dt.classList.add('completed');
+                }
             }
-            if(document.getElementById(`screen-${currentStep}`)) document.getElementById(`screen-${currentStep}`).classList.add('active');
-            if(document.getElementById(`dot-${currentStep}`)) document.getElementById(`dot-${currentStep}`).classList.add('active');
+            
+            if(document.getElementById(`screen-${currentStep}`)) {
+                document.getElementById(`screen-${currentStep}`).classList.add('active');
+            }
+            if(document.getElementById(`dot-${currentStep}`)) {
+                document.getElementById(`dot-${currentStep}`).classList.add('active');
+            }
+            
             document.getElementById('mockupRoute').innerText = routes[currentStep];
             currentStep = (currentStep + 1) % totalSteps;
         }
+        
+        runStorytellingCycle();
         setInterval(runStorytellingCycle, 4000);
 
-        // --- GESTION DE L'OUVERTURE / FERMETURE DU MENU BURGER MOBILE ---
+        // --- GESTION DU DROP DOWN DE LANGUES (HEADER OPEN/CLOSE) ---
+        const headerLangSelector = document.getElementById('headerLangSelector');
+        const headerLangBtn = document.getElementById('headerLangBtn');
+        
+        headerLangBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            headerLangSelector.classList.toggle('open');
+        });
+
+        // --- GESTION DU MENU BURGER MOBILE ---
         function toggleMobileMenu() {
             const drawer = document.getElementById('mobileDrawer');
             const overlay = document.getElementById('menuOverlay');
@@ -734,7 +1130,6 @@
             drawer.classList.toggle('open');
             overlay.classList.toggle('active');
             
-            // Animation de transformation de l'icône : Hamburger <-> Croix
             if (drawer.classList.contains('open')) {
                 icon.classList.remove('fa-bars');
                 icon.classList.add('fa-xmark');
@@ -744,13 +1139,12 @@
             }
         }
 
-        // --- DESKTOP + MOBILE : SYNCHRONISATION UNIQUE DU MODE SOMBRE ---
+        // --- SYNCHRONISATION DU MODE SOMBRE ---
         const themeButtons = document.querySelectorAll('.dark-mode-toggle');
         themeButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 document.body.classList.toggle('dark-mode');
                 
-                // Met à jour les deux icônes de lune/soleil en même temps
                 themeButtons.forEach(b => {
                     const icon = b.querySelector('.themeIcon');
                     if (document.body.classList.contains('dark-mode')) {
@@ -762,7 +1156,7 @@
             });
         });
 
-        // Logique de calcul dynamique de la fenêtre modale
+        // --- LOGIQUE POPUP ET CALCUL DYNAMIQUE DES PRIX ---
         const rates = { "France": 85, "Canada": 50, "Suisse": 9.99, "Belgique": 9.99 };
         function openModal() { document.getElementById('devis-modal').classList.add('active'); calculateTotalPrice(); }
         function closeModal() { document.getElementById('devis-modal').classList.remove('active'); }
@@ -781,10 +1175,10 @@
             document.getElementById('computed-price').innerText = `${(price * agents).toFixed(2).replace('.', ',')} € / mois`;
         }
 
-        // Dropdown Pays personnalisé interne
+        // Dropdown Pays personnalisé (Modal)
         const dropdown = document.getElementById('countryDropdown');
         document.getElementById('dropdownTriggerBtn').addEventListener('click', (e) => { e.stopPropagation(); dropdown.classList.toggle('open'); });
-        document.querySelectorAll('.dropdown-item').forEach(item => {
+        document.querySelectorAll('.dropdown-menu .dropdown-item').forEach(item => {
             item.addEventListener('click', function() {
                 const val = this.getAttribute('data-value');
                 const code = this.getAttribute('data-code');
@@ -794,7 +1188,12 @@
                 calculateTotalPrice();
             });
         });
-        document.addEventListener('click', () => dropdown.classList.remove('open'));
+        
+        // Fermeture globale des dropdowns au clic à côté
+        document.addEventListener('click', () => {
+            if (dropdown) dropdown.classList.remove('open');
+            if (headerLangSelector) headerLangSelector.classList.remove('open');
+        });
     </script>
 </body>
 </html>
