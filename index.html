@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morsodial | Logiciel de Centre d'Appels & Téléphonie Fixe/Mobile</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght=500;600;700&family=Inter:wght=400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- Variables d'Identité Visuelle (Mode Clair par défaut) --- */
+        :root {
+            --navy: #1B2240;
+            --teal: #14B8A6;
+            --corail: #FF6B4A;
+            --charbon: #2C2C2A;
+            --brume: #FAFAF9;
+            --border-color: #E2E8F0;
+            --white: #FFFFFF;
+            
+            /* DÉGRADÉ MODE CLAIR */
+            --bg-global: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 40%, #E2E8F0 100%);
+            
+            /* Glassmorphism */
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --text-secondary: #575652;
+            --mockup-bg: #FFFFFF;
+            --price-box-bg: rgba(241, 245, 249, 0.8);
+            --price-box-border: #cbd5e1;
+            --dropdown-hover: rgba(20, 184, 166, 0.06);
+            --modal-shadow: rgba(27, 34, 64, 0.12);
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --toggle-bg: #E5E3DC;
+            --toggle-color: #1B2240;
+
+            /* --- Couleurs Spécifiques MacBook Air M2 Midnight --- */
+            --mba-midnight-aluminum: #1A1F26;
+            --mba-midnight-dark: #111418;
+            --mba-screen-border: #090B0D;
+            --mba-reflection: rgba(255, 255, 255, 0.06);
+        }
+
+        /* --- Surcharge pour le Mode Sombre Actif --- */
+        body.dark-mode {
+            --navy: #FFFFFF;
+            --charbon: #E2E8F0;
+            --brume: #0F172A;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --white: #0B0F17;
+            
+            /* DÉGRADÉ MODE SOMBRE */
+            --bg-global: radial-gradient(circle at 10% 10%, #1E293B 0%, #0F172A 50%, #020617 100%);
+            
+            /* Glassmorphism sombre */
+            --card-bg: rgba(15, 23, 42, 0.55);
+            --text-secondary: #94A3B8;
+            --mockup-bg: #0F172A;
+            --price-box-bg: rgba(30, 41, 59, 0.5);
+            --price-box-border: rgba(255, 255, 255, 0.1);
+            --dropdown-hover: rgba(20, 184, 166, 0.15);
+            --modal-shadow: rgba(0, 0, 0, 0.5);
+            --nav-bg: rgba(2, 6, 23, 0.7);
+            --toggle-bg: #1E293B;
+            --toggle-color: #FBBF24;
+        }
+
+        /* --- Reset & Base --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-global);
+            background-attachment: fixed;
+            color: var(--charbon);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+            overflow-x: hidden;
+            transition: background 0.5s ease, color 0.3s ease;
+        }
+
+        h1, h2, h3, h4, .logo {
+            font-family: 'Sora', sans-serif;
+            color: var(--navy);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        /* --- EN-TÊTE FIXE GLOBAL --- */
+        .fixed-header-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+
+        .top-announcement {
+            background-color: #1B2240;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        body.dark-mode .top-announcement {
+            background-color: #020617;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 8%;
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-symbol {
+            width: 32px;
+            height: 32px;
+            background-color: #1B2240;
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            padding-left: 7px;
+            transition: background-color 0.3s;
+        }
+        body.dark-mode .logo-symbol { background-color: #334155; }
+
+        .logo-symbol .line {
+            display: block;
+            width: 16px;
+            height: 3px;
+            background-color: var(--teal);
+            border-radius: 2px;
+        }
+        .logo-symbol .line.text-short { width: 12px; }
+        .logo-symbol .dot-corail {
+            width: 6px;
+            height: 6px;
+            background-color: var(--corail);
+            border-radius: 50%;
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+        }
+
+        .nav-links { display: flex; list-style: none; }
+        .nav-links li { margin: 0 18px; }
+        .nav-links a { text-decoration: none; color: var(--navy); font-weight: 500; font-size: 15px; transition: color 0.2s;}
+        .nav-links a:hover { color: var(--teal); }
+
+        .nav-buttons { display: flex; align-items: center; gap: 14px; }
+
+        .dark-mode-toggle {
+            background-color: var(--toggle-bg);
+            color: var(--toggle-color);
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .dark-mode-toggle:hover { transform: scale(1.05); }
+
+        .btn-teal-sm, .btn-corail, .btn-outline-navy, .btn-text, .btn-navy-full, .btn-corail-full {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            border-radius: 50px;
+            transition: all 0.2s ease-in-out;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .btn-teal-sm { padding: 10px 22px; background-color: var(--teal); color: #FFFFFF; border: none; }
+        .btn-teal-sm:hover { background-color: #0d9488; transform: translateY(-1px); }
+
+        .btn-text { color: var(--navy); padding: 10px 15px; }
+
+        .btn-corail { padding: 15px 35px; background-color: var(--corail); color: #FFFFFF; box-shadow: 0 4px 15px rgba(255, 107, 74, 0.2); border: none; }
+        .btn-corail:hover { background-color: #f05a37; transform: translateY(-1px); }
+
+        .btn-outline-navy { padding: 15px 35px; border: 2px solid var(--navy); color: var(--navy); background: transparent; }
+        .btn-outline-navy:hover { background-color: var(--navy); color: var(--white); }
+
+        .btn-navy-full { padding: 12px; background-color: #1B2240; color: #FFFFFF; width: 100%; text-align: center; border: 1px solid transparent; border-radius: 50px; }
+        .btn-navy-full:hover { background-color: #262f54; }
+        body.dark-mode .btn-navy-full { background-color: #334155; border-color: var(--border-color); }
+        body.dark-mode .btn-navy-full:hover { background-color: #475569; }
+        
+        .btn-corail-full { padding: 14px; background-color: var(--corail); color: #FFFFFF; width: 100%; text-align: center; border: none; border-radius: 50px; }
+        .btn-corail-full:hover { background-color: #f05a37; }
+
+        /* --- Section Hero --- */
+        .hero-section { padding: 160px 8% 100px 8%; background: transparent; }
+        .hero-container { display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; align-items: center; max-width: 1250px; margin: 0 auto; }
+        .badge-tag { display: inline-block; padding: 6px 16px; background-color: rgba(20, 184, 166, 0.1); color: var(--teal); font-weight: 700; font-size: 12px; border-radius: 30px; margin-bottom: 20px; }
+        .hero-text-side h1 { font-size: 46px; line-height: 1.2; margin-bottom: 24px; letter-spacing: -0.02em; }
+        .hero-text-side p { font-size: 17px; color: var(--charbon); margin-bottom: 35px; max-width: 550px; }
+        .hero-cta-group { display: flex; gap: 16px; margin-bottom: 40px; }
+        .hero-trust-metrics { display: flex; gap: 20px; font-size: 13px; font-weight: 600; color: var(--navy); }
+        .hero-trust-metrics i { color: var(--teal); margin-right: 4px; }
+
+        /* --- 💻 NOUVEAU MOCKUP INTEGRAL MACBOOK AIR M2 MIDNIGHT 💻 --- */
+        .macbook-air-m2-container {
+            width: 100%;
+            max-width: 580px;
+            margin: 0 auto;
+            position: relative;
+            filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.25));
+        }
+
+        /* L'Écran du MacBook */
+        .macbook-screen {
+            background-color: var(--mba-screen-border);
+            border: 11px solid var(--mba-screen-border);
+            border-bottom: 14px solid var(--mba-screen-border); /* Bordure basse légèrement plus épaisse */
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            aspect-ratio: 16 / 10;
+            overflow: hidden;
+            box-shadow: inset 0 0 0 1px var(--mba-reflection);
+        }
+
+        /* L'Encoche caractéristique (Notch) du M2 */
+        .macbook-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 12px;
+            background-color: var(--mba-screen-border);
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Petite lentille caméra dans le notch */
+        .macbook-notch::after {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: #111827;
+            border-radius: 50%;
+            box-shadow: inset 0 0 1px #374151;
+        }
+
+        /* Barre d'application simulée à l'intérieur de la fenêtre système */
+        .mockup-top-bar { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 8px 14px 8px 24px; /* Un peu d'espace à gauche à cause du notch */
+            background: #1E293B; 
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .circles { display: flex; gap: 6px; }
+        .circles .c { width: 7px; height: 7px; border-radius: 50%; background-color: #475569; }
+        .active-route { font-size: 11px; color: #94a3b8; font-family: monospace; letter-spacing: -0.3px; }
+        
+        /* Indicateur de progression des étapes de la Story */
+        .story-steps-indicator { display: flex; gap: 4px; width: 70px; }
+        .story-dot { flex: 1; height: 3px; background: rgba(255,255,255,0.2); border-radius: 2px; position: relative; overflow: hidden; }
+        .story-dot.active::after { content: ''; position: absolute; left:0; top:0; height:100%; width:100%; background: var(--teal); animation: progressFill 4s linear forwards; }
+        .story-dot.completed { background: var(--teal); }
+
+        @keyframes progressFill { from { width: 0%; } to { width: 100%; } }
+
+        /* Contenu de l'écran */
+        .mockup-content { 
+            background-color: var(--mockup-bg); 
+            height: calc(100% - 31px); /* Hauteur moins la top-bar */
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 15px; 
+            transition: background-color 0.3s; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        
+        /* La Base Plate du MacBook Air M2 */
+        .macbook-base {
+            height: 6px;
+            background: linear-gradient(to bottom, var(--mba-midnight-aluminum), var(--mba-midnight-dark));
+            border-radius: 0 0 20px 20px;
+            position: relative;
+            width: 106%; /* Déborde légèrement de l'écran comme le vrai modèle */
+            left: -3%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Petite encoche centrale pour lever l'écran */
+        .macbook-base::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+
+        /* --- Écrans Interactifs de la Story --- */
+        .story-screen { display: none; width: 100%; max-width: 350px; animation: fadeInScreen 0.4s ease forwards; }
+        .story-screen.active { display: block; }
+
+        @keyframes fadeInScreen { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Widget Commun d'Appel */
+        .dialer-widget { border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.02); background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); transition: all 0.3s; }
+        body.dark-mode .dialer-widget { background-color: rgba(30, 41, 59, 0.9); }
+        
+        .dialer-header { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; color: #64748b; font-weight: 600; margin-bottom: 16px; }
+        body.dark-mode .dialer-header { color: #94A3B8; }
+
+        .caller-profile .avatar-sim { width: 44px; height: 44px; background: var(--brume); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; color: var(--navy); font-size: 16px; border: 1px solid var(--border-color); }
+        .caller-profile h4 { font-size: 15px; margin-bottom: 2px; }
+        .caller-profile p { font-size: 12px; color: var(--teal); font-weight: 600; }
+
+        /* Étape 1 : Radar Composition */
+        .dialer-radar { width: 54px; height: 54px; margin: 0 auto 15px auto; position: relative; display: flex; align-items: center; justify-content: center; }
+        .radar-circle { position: absolute; width: 100%; height: 100%; background: rgba(20, 184, 166, 0.15); border-radius: 50%; animation: radarWave 1.8s infinite ease-out; }
+        .radar-circle:nth-child(2) { animation-delay: 0.6s; }
+        .radar-circle:nth-child(3) { animation-delay: 1.2s; }
+        .radar-icon { position: relative; z-index: 2; font-size: 20px; color: var(--teal); }
+
+        @keyframes radarWave { from { transform: scale(0.6); opacity: 1; } to { transform: scale(1.5); opacity: 0; } }
+
+        /* Étape 2 : Onde Sonore / Enregistrement */
+        .rec-indicator { display: flex; align-items: center; gap: 4px; background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; margin: 0 auto 12px auto; width: fit-content; }
+        .rec-dot { width: 6px; height: 6px; background: #ef4444; border-radius: 50%; animation: pulse 1s infinite; }
+        .audio-wave { display: flex; justify-content: center; align-items: center; gap: 3px; height: 24px; margin-top: 15px; }
+        .audio-bar { width: 3px; height: 6px; background-color: var(--teal); border-radius: 3px; animation: waveMotion 1.2s infinite ease-in-out; }
+        .audio-bar:nth-child(2) { height: 18px; animation-delay: 0.2s; }
+        .audio-bar:nth-child(3) { height: 24px; animation-delay: 0.4s; }
+        .audio-bar:nth-child(4) { height: 12px; animation-delay: 0.1s; }
+        .audio-bar:nth-child(5) { height: 20px; animation-delay: 0.3s; }
+
+        @keyframes waveMotion { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(2.5); } }
+
+        /* Étape 3 : Succès et Vente Conclue */
+        .success-banner { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 22px; text-align: center; }
+        body.dark-mode .success-banner { background: rgba(22, 163, 74, 0.1); border-color: rgba(22, 163, 74, 0.2); }
+        .success-icon { width: 50px; height: 50px; background: #dcfce7; color: #16a34a; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: 20px; animation: scaleUpPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        body.dark-mode .success-icon { background: #16a34a; color: white; }
+        .badge-deal { display: inline-block; background: #16a34a; color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-top: 12px; letter-spacing: 0.05em; }
+
+        @keyframes scaleUpPop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* Étape 4 : Graphique de croissance */
+        .analytics-box { background: var(--white); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.01); text-align: left; width: 100%; }
+        .analytics-title { font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 4px; }
+        .analytics-amount { font-size: 22px; font-family: 'Sora', sans-serif; font-weight: 700; color: var(--navy); display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+        .analytics-amount i { color: #16a34a; font-size: 16px; animation: floatUp 1.5s infinite ease-in-out; }
+        .chart-container { width: 100%; height: 90px; display: flex; align-items: flex-end; position: relative; }
+        .svg-chart { width: 100%; height: 100%; }
+        .chart-line { stroke-dasharray: 400; stroke-dashoffset: 400; animation: drawLine 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        
+        @keyframes drawLine { to { stroke-dashoffset: 0; } }
+        @keyframes floatUp { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+
+        /* --- Fin Section Focus --- */
+        .telephony-section { padding: 100px 8%; background: transparent; }
+        .section-center-head { text-align: center; max-width: 600px; margin: 0 auto 60px auto; }
+        .sub-title-tag { font-size: 12px; font-weight: 700; color: var(--teal); letter-spacing: 0.05em; }
+        .section-center-head h2 { font-size: 34px; margin: 10px 0 16px 0; }
+        .section-center-head p { color: var(--text-secondary); transition: color 0.3s; }
+        .telephony-cards-grid { display: flex; gap: 30px; max-width: 900px; margin: 0 auto; }
+        
+        .telecom-card, .price-card { background: var(--card-bg) !important; backdrop-filter: blur(12px) !important; -webkit-backdrop-filter: blur(12px) !important; border: 1px solid var(--border-color) !important; padding: 40px; border-radius: 16px; flex: 1; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.01); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s, border-color 0.3s, box-shadow 0.3s; }
+        body.dark-mode .telecom-card, body.dark-mode .price-card { box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25); }
+        .telecom-card:hover, .price-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06); }
+        .telecom-card.highlighted-teal { border-top: 5px solid var(--teal) !important; }
+        .t-icon { width: 50px; height: 50px; background: rgba(20, 184, 166, 0.1); color: var(--teal); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 20px; }
+        .telecom-card h3 { font-size: 20px; margin-bottom: 12px; }
+        .telecom-card p { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; transition: color 0.3s;}
+        .card-bullets { list-style: none; }
+        .card-bullets li { font-size: 13px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .card-bullets i { font-size: 10px; color: var(--corail); }
+
+        /* --- Section Fonctionnalités --- */
+        .features-section { padding: 100px 8%; background: transparent; }
+        .ringover-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1100px; margin: 0 auto; }
+        .f-block { padding: 30px; border-radius: 12px; border: 1px solid transparent; transition: all 0.3s; }
+        .f-block:hover { border-color: var(--border-color); background-color: var(--card-bg); backdrop-filter: blur(8px); }
+        .f-block-icon { font-size: 26px; color: var(--corail); margin-bottom: 16px; }
+        .f-block h3 { font-size: 18px; margin-bottom: 10px; }
+        .f-block p { font-size: 14px; color: var(--text-secondary); transition: color 0.3s;}
+
+        /* --- Section Tarification --- */
+        .pricing-section { padding: 100px 8%; background: transparent; }
+        .pricing-grid-ringover { display: flex; gap: 24px; max-width: 1100px; margin: 40px auto 0 auto; align-items: stretch; }
+        .price-card { padding: 35px 25px; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        .flag-header { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+        .flag-header img { width: 24px; height: 16px; object-fit: cover; border-radius: 2px; }
+        .flag-header h3 { font-size: 18px; margin: 0; }
+        .cost { font-size: 30px; font-weight: 700; color: var(--navy); margin: 15px 0; font-family: 'Sora', sans-serif; transition: color 0.3s;}
+        .cost span { font-size: 13px; color: #64748b; font-weight: 400; transition: color 0.3s;}
+        body.dark-mode .cost span { color: #94A3B8; }
+        .p-explain { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; min-height: 42px; transition: color 0.3s;}
+        .p-features { list-style: none; margin-bottom: 25px; }
+        .p-features li { font-size: 13px; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 6px; }
+        .p-features i { color: var(--teal); margin-top: 3px; }
+
+        /* --- PIED DE PAGE --- */
+        footer { 
+            background: #1B2240; 
+            color: #FFFFFF; 
+            padding: 60px 8% 30px 8%; 
+            transition: background-color 0.3s, border-color 0.3s; 
+        }
+        body.dark-mode footer { background: #020617; border-top: 1px solid var(--border-color); }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer-brand .logo { color: #FFFFFF; margin-bottom: 15px; }
+        .footer-brand p { font-size: 14px; color: #94a3b8; max-width: 320px; line-height: 1.6; }
+        
+        footer h4 {
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-family: 'Sora', sans-serif;
+        }
+        
+        .footer-contact-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .footer-contact-list li {
+            font-size: 14px;
+            color: #94a3b8;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.4;
+        }
+        .footer-contact-list i {
+            color: var(--teal);
+            font-size: 15px;
+            margin-top: 3px;
+            width: 16px;
+            text-align: center;
+        }
+        .footer-contact-list a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-contact-list a:hover {
+            color: var(--teal);
+        }
+
+        .social-icons-box { display: flex; gap: 12px; margin-top: 5px; }
+        .social-link { width: 40px; height: 40px; background-color: rgba(255, 255, 255, 0.05); color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; text-decoration: none; transition: all 0.3s ease; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .social-link:hover { background-color: var(--teal); color: #FFFFFF; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(20, 184, 166, 0.3); }
+        .footer-bottom { max-width: 1100px; margin: 30px auto 0 auto; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #64748b; }
+
+        /* --- MODAL FORMULAIRE D'INSCRIPTION --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.6); backdrop-filter: blur(5px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-window { background-color: var(--white); width: 90%; max-width: 680px; border-radius: 16px; box-shadow: 0 25px 50px -12px var(--modal-shadow); overflow: visible; border: 1px solid var(--border-color); transform: scale(0.9); transition: transform 0.3s ease, background-color 0.3s, border-color 0.3s; position: relative; }
+        .modal-overlay.active .modal-window { transform: scale(1); }
+        .modal-header { background-color: var(--brume); padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); border-top-left-radius: 16px; border-top-right-radius: 16px; transition: background-color 0.3s, border-color 0.3s; }
+        .modal-header h3 { font-size: 18px; color: var(--navy); display: flex; align-items: center; gap: 10px; }
+        .modal-header h3 i { color: var(--teal); }
+        .close-modal-btn { background: none; border: none; color: var(--charbon); font-size: 28px; font-weight: 300; cursor: pointer; line-height: 1; }
+        .close-modal-btn:hover { color: var(--corail); }
+        .modal-body { padding: 30px; }
+        .modal-body > p { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; transition: color 0.3s; }
+        .devis-form { display: flex; flex-direction: column; gap: 18px; }
+        .form-row { display: flex; gap: 20px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; flex: 1; position: relative; }
+        .form-group label { font-size: 13px; font-weight: 600; color: var(--navy); transition: color 0.3s; }
+        .form-group input, .form-group select { padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--charbon); background-color: var(--brume); outline: none; transition: all 0.2s; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--teal); background-color: var(--white); box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15); }
+
+        .live-price-box { background-color: var(--price-box-bg); border: 1px dashed var(--price-box-border); border-radius: 10px; padding: 16px 20px; margin-top: 5px; display: flex; flex-direction: column; gap: 4px; transition: background-color 0.3s, border-color 0.3s; }
+        .live-price-title { font-size: 15px; font-weight: 700; color: var(--navy); display: flex; justify-content: space-between; align-items: center; transition: color 0.3s; }
+        .live-price-amount { font-size: 20px; color: var(--teal); font-family: 'Sora', sans-serif; }
+        .live-price-detail { font-size: 12px; color: var(--text-secondary); font-weight: 500; line-height: 1.4; transition: color 0.3s; }
+
+        /* Custom Dropdown Flags */
+        .ringover-dropdown { position: relative; width: 100%; user-select: none; z-index: 3000; }
+        .dropdown-trigger { padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--brume); font-size: 14px; color: var(--charbon); display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s; }
+        .ringover-dropdown.open .dropdown-trigger { border-color: var(--teal); background-color: var(--white); box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15); }
+        #selected-country, .dropdown-item { display: flex; align-items: center; gap: 12px; }
+        .flag-icon { width: 22px; height: 15px; object-fit: cover; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); border: 1px solid rgba(0, 0, 0, 0.06); }
+        .dropdown-menu { position: absolute; top: calc(100% + 4px); left: 0; width: 100%; background-color: var(--white); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); z-index: 9999 !important; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.15s ease-in-out; }
+        .ringover-dropdown.open .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-item { padding: 12px 16px; cursor: pointer; font-size: 14px; color: var(--charbon); transition: background-color 0.15s; }
+        .dropdown-item:hover { background-color: var(--dropdown-hover); color: var(--teal); }
+
+        /* Button Tremblement */
+        .btn-corail-submit { margin-top: 5px; padding: 14px; background-color: var(--teal); color: #FFFFFF; border: none; border-radius: 50px; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; box-shadow: 0 4px 12px rgba(20, 184, 166, 0.2); display: flex; justify-content: center; align-items: center; gap: 10px; transition: all 0.2s ease-in-out; }
+        .btn-corail-submit:hover { background-color: #0d9488; transform: translateY(-1px); box-shadow: 0 6px 15px rgba(20, 184, 166, 0.3); }
+        .btn-corail-submit.should-shake { animation: shakeButton 0.6s infinite both; }
+
+        @keyframes shakeButton {
+            0%, 100% { transform: translateX(0); }
+            15% { transform: translateX(-4px) rotate(-0.5deg); }
+            30% { transform: translateX(4px) rotate(0.5deg); }
+            45% { transform: translateX(-3px) rotate(-0.5deg); }
+            60% { transform: translateX(3px) rotate(0.5deg); }
+            75% { transform: translateX(-1.5px); }
+            90% { transform: translateX(1.5px); }
+        }
+
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+
+        @media (max-width: 900px) {
+            .navbar { padding: 15px 5%; }
+            .top-announcement { display: none; }
+            .nav-links { display: none; }
+            .hero-container { grid-template-columns: 1fr; text-align: center; }
+            .hero-cta-group { justify-content: center; }
+            .hero-trust-metrics { justify-content: center; }
+            .hero-visual-side { margin-top: 20px; }
+            .telephony-cards-grid { flex-direction: column; }
+            .pricing-grid-ringover { flex-direction: column; }
+            .form-row { flex-direction: column; gap: 18px; }
+            .hero-section { padding-top: 100px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fixed-header-container">
+        <div class="top-announcement">
+            <p>🚀 Nouveau : Déployez vos lignes mobiles et fixes internationales en moins de 5 minutes !</p>
+        </div>
+
+        <header class="navbar">
+            <div class="logo">
+                <div class="logo-symbol">
+                    <span class="line"></span>
+                    <span class="line text-short"></span>
+                    <span class="dot-corail"></span>
+                </div>
+                Morsodial
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#telephony">Notre Téléphonie</a></li>
+                    <li><a href="#features">Fonctionnalités</a></li>
+                    <li><a href="#pricing">Tarifs</a></li>
+                </ul>
+            </nav>
+            <div class="nav-buttons">
+                <a href="#login" class="btn-text">Connexion</a>
+                <button onclick="openModal()" class="btn-teal-sm">S'inscrire</button>
+                
+                <button class="dark-mode-toggle" id="themeToggleBtn" title="Changer de mode">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </button>
+            </div>
+        </header>
+    </div>
+
+    <section id="home" class="hero-section">
+        <div class="hero-container">
+            <div class="hero-text-side">
+                <span class="badge-tag">Téléphonie d'entreprise Cloud</span>
+                <h1>Le système d'appel tout-en-un pour booster vos ventes</h1>
+                <p>Morsodial combine un dialer prédictif surpuissant et la fourniture de vos lignes téléphoniques professionnelles partout dans le monde. Donnez à vos équipes les outils pour prospecter sans limites.</p>
+                <div class="hero-cta-group">
+                    <button onclick="openModal()" class="btn-corail">S'inscrire immédiatement</button>
+                    <a href="#telephony" class="btn-outline-navy">Voir nos offres de lignes</a>
+                </div>
+                <div class="hero-trust-metrics">
+                    <span><i class="fa-solid fa-circle-check"></i> Lignes Fixes & Mobiles</span>
+                    <span><i class="fa-solid fa-circle-check"></i> +120 Pays Couverts</span>
+                    <span><i class="fa-solid fa-circle-check"></i> Qualité HD</span>
+                </div>
+            </div>
+            
+            <div class="hero-visual-side">
+                <div class="macbook-air-m2-container">
+                    
+                    <div class="macbook-screen">
+                        <div class="macbook-notch"></div>
+                        
+                        <div class="mockup-top-bar">
+                            <div class="circles"><span class="c"></span><span class="c"></span><span class="c"></span></div>
+                            <div class="active-route" id="mockupRoute">morsodial.com/dialer</div>
+                            <div class="story-steps-indicator">
+                                <span class="story-dot" id="dot-0"></span>
+                                <span class="story-dot" id="dot-1"></span>
+                                <span class="story-dot" id="dot-2"></span>
+                                <span class="story-dot" id="dot-3"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="mockup-content">
+                            
+                            <div class="story-screen active" id="screen-0">
+                                <div class="dialer-widget">
+                                    <div class="dialer-radar">
+                                        <div class="radar-circle"></div>
+                                        <div class="radar-circle"></div>
+                                        <div class="radar-circle"></div>
+                                        <i class="fa-solid fa-phone-volume radar-icon"></i>
+                                    </div>
+                                    <div class="caller-profile">
+                                        <h4 style="color: var(--navy);">Numérotation en cours...</h4>
+                                        <p style="font-size:12px; color:#64748b; font-weight:400; margin-top:3px;">Dialer prédictif automatisé</p>
+                                        <div style="font-size: 14px; font-weight: 700; margin-top: 10px; color: var(--teal);">+33 6 12 AA BB CC</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="story-screen" id="screen-1">
+                                <div class="dialer-widget">
+                                    <div class="rec-indicator">
+                                        <span class="rec-dot"></span> ENREGISTREMENT AUDIO
+                                    </div>
+                                    <div class="caller-profile">
+                                        <div class="avatar-sim"><i class="fa-solid fa-user"></i></div>
+                                        <h4>International Lead #749</h4>
+                                        <p><i class="fa-solid fa-phone"></i> En ligne : 00:14</p>
+                                    </div>
+                                    <div class="audio-wave">
+                                        <span class="audio-bar"></span><span class="audio-bar"></span><span class="audio-bar"></span><span class="audio-bar"></span><span class="audio-bar"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="story-screen" id="screen-2">
+                                <div class="success-banner">
+                                    <div class="success-icon">
+                                        <i class="fa-solid fa-handshake"></i>
+                                    </div>
+                                    <h4 style="color:#16a34a; font-size:17px;">Vente Conclue !</h4>
+                                    <p style="font-size:12px; color:#15803d; margin-top:3px;">Abonnement validé en direct au téléphone.</p>
+                                    <span class="badge-deal">Opportunité Gagnée</span>
+                                </div>
+                            </div>
+
+                            <div class="story-screen" id="screen-3">
+                                <div class="analytics-box">
+                                    <div class="analytics-title">Chiffre d'affaires cumulé</div>
+                                    <div class="analytics-amount">
+                                        42 850 € <i class="fa-solid fa-arrow-trend-up"></i>
+                                    </div>
+                                    <div class="chart-container">
+                                        <svg class="svg-chart" viewBox="0 0 300 100" preserveAspectRatio="none">
+                                            <path class="chart-line" d="M0,90 Q50,85 90,60 T180,45 T250,15 T300,5" fill="none" stroke="#14B8A6" stroke-width="4" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    <div class="macbook-base"></div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="telephony" class="telephony-section">
+        <div class="section-center-head">
+            <span class="sub-title-tag">CONNECTIVITÉ GLOBALE</span>
+            <h2>Une infrastructure télécom complète pour vos agents</h2>
+            <p>Plus besoin de souscrire à un opérateur tiers. Morsodial gère l'intégralité de vos télécoms.</p>
+        </div>
+
+        <div class="telephony-cards-grid">
+            <div class="telecom-card">
+                <div class="t-icon"><i class="fa-solid fa-phone"></i></div>
+                <h3>Lignes Fixes Locales</h3>
+                <p>Affichent un numéro fixe local (France, Maroc, UK, USA, etc.) pour rassurer vos prospects et augmenter instantanément votre taux de décroché.</p>
+                <ul class="card-bullets">
+                    <li><i class="fa-solid fa-circle-play"></i> Numéros géographiques & nationaux</li>
+                    <li><i class="fa-solid fa-circle-play"></i> Tarifs d'appels locaux ultra-compétitifs</li>
+                </ul>
+            </div>
+
+            <div class="telecom-card highlighted-teal">
+                <div class="t-icon"><i class="fa-solid fa-mobile-button"></i></div>
+                <h3>Lignes Mobiles Dédiées</h3>
+                <p>La prospection moderne passe par le mobile. Morsodial vous fournit de véritables numéros mobiles pour vos campagnes d'appels et de SMS.</p>
+                <ul class="card-bullets">
+                    <li><i class="fa-solid fa-circle-play"></i> Numéros mobiles internationaux disponibles</li>
+                    <li><i class="fa-solid fa-circle-play"></i> Idéal pour les rappels de prospects (Call-back)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features-section">
+        <div class="section-center-head">
+            <span class="sub-title-tag">PILOTAGE EN TEMPS RÉEL</span>
+            <h2>Conçu pour doubler les performances de vos équipes</h2>
+        </div>
+        <div class="ringover-grid">
+            <div class="f-block">
+                <div class="f-block-icon"><i class="fa-solid fa-bolt"></i></div>
+                <h3>Predictive Dialer</h3>
+                <p>Optimisez le temps de vos téléconseillers. Notre système compose les numéros en masse et transfère uniquement les appels répondus à vos agents.</p>
+            </div>
+            <div class="f-block">
+                <div class="f-block-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                <h3>Historique & Fiches Leads</h3>
+                <p>Chaque appel fixe ou mobile est enregistré, répertorié et associé à une fiche client pour un suivi commercial rigoureux et sans faille.</p>
+            </div>
+            <div class="f-block">
+                <div class="f-block-icon"><i class="fa-solid fa-ear-listen"></i></div>
+                <h3>Double Écoute & Chuchotement</h3>
+                <p>Formez vos équipes directement en ligne. Écoutez les conversations discrètement et soufflez des conseils à vos agents sans que le client n'entende.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing-section">
+        <div class="section-center-head">
+            <h2>Une tarification claire et adaptée à vos destinations cibles</h2>
+        </div>
+        <div class="pricing-grid-ringover">
+            <div class="price-card">
+                <div>
+                    <div class="flag-header">
+                        <img src="https://flagcdn.com/w40/fr.png" alt="France">
+                        <h3>Zone France</h3>
+                    </div>
+                    <div class="cost">85€ <span>/ log / illimité</span></div>
+                    <p class="p-explain">Lignes fixes & mobiles françaises pour une couverture totale.</p>
+                    <ul class="p-features">
+                        <li><i class="fa-solid fa-check"></i> Appels Fixes et Mobiles illimités</li>
+                        <li><i class="fa-solid fa-check"></i> Predictive Dialer & CRM inclus</li>
+                        <li><i class="fa-solid fa-check"></i> Enregistrement d'appels</li>
+                    </ul>
+                </div>
+                <button onclick="openModalWithCountry('France')" class="btn-navy-full">S'inscrire (France)</button>
+            </div>
+
+            <div class="price-card">
+                <div>
+                    <div class="flag-header">
+                        <img src="https://flagcdn.com/w40/ca.png" alt="Canada">
+                        <h3>Zone Canada</h3>
+                    </div>
+                    <div class="cost">50€ <span>/ log / illimité</span></div>
+                    <p class="p-explain">Idéal pour vos campagnes d'appels sortants vers l'Amérique du Nord.</p>
+                    <ul class="p-features">
+                        <li><i class="fa-solid fa-check"></i> Appels Fixes et Mobiles illimités</li>
+                        <li><i class="fa-solid fa-check"></i> Predictive Dialer & CRM inclus</li>
+                        <li><i class="fa-solid fa-check"></i> Qualité de voix HD</li>
+                    </ul>
+                </div>
+                <button onclick="openModalWithCountry('Canada')" class="btn-navy-full">S'inscrire (Canada)</button>
+            </div>
+
+            <div class="price-card">
+                <div>
+                    <div class="flag-header">
+                        <img src="https://flagcdn.com/w40/be.png" alt="Belgique" style="margin-right:2px;">
+                        <img src="https://flagcdn.com/w40/ch.png" alt="Suisse">
+                        <h3>Belgique / Suisse</h3>
+                    </div>
+                    <div class="cost">9,99€ <span>/ log / mois</span></div>
+                    <p class="p-explain">Accès CRM & Dialer complet. La voix est facturée au compteur (Pay As You Go).</p>
+                    <ul class="p-features">
+                        <li><i class="fa-solid fa-check"></i> Idéal pour gérer vos budgets</li>
+                        <li><i class="fa-solid fa-check"></i> Recharges faciles depuis votre interface</li>
+                        <li><i class="fa-solid fa-check"></i> Tarifs à la seconde ultra-compétitifs</li>
+                    </ul>
+                </div>
+                <button onclick="openModalWithCountry('Suisse')" class="btn-corail-full">S'inscrire (Pay As You Go)</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo">
+                    <div class="logo-symbol">
+                        <span class="line"></span>
+                        <span class="line text-short"></span>
+                        <span class="dot-corail"></span>
+                    </div>
+                    Morsodial
+                </div>
+                <p>Opérateur et éditeur de solutions de communication cloud pour centres d'appels ambitieux.</p>
+            </div>
+
+            <div>
+                <h4>Nous contacter</h4>
+                <ul class="footer-contact-list">
+                    <li>
+                        <i class="fa-solid fa-phone"></i>
+                        <span>+212 600 000 000</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-envelope"></i>
+                        <a href="mailto:contact@morsodial.com">contact@morsodial.com</a>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Tit Mellil, Casablanca, Maroc</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Suivez-nous</h4>
+                <div class="social-icons-box">
+                    <a href="https://facebook.com" target="_blank" class="social-link" title="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="social-link" title="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://youtube.com" target="_blank" class="social-link" title="YouTube">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Morsodial. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <div id="devis-modal" class="modal-overlay">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-user-plus"></i> Formulaire d'Inscription</h3>
+                <button type="button" class="close-modal-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Complétez vos informations pour finaliser la création de votre compte Morsodial. Configuration immédiate.</p>
+                
+                <form id="registrationForm" action="#" method="POST" class="devis-form" onsubmit="event.preventDefault(); alert('Redirection vers la passerelle de paiement...'); closeModal();">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="company">Nom de l'entreprise *</label>
+                            <input type="text" id="company" class="required-input" placeholder="Ex: Call Center International" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="positions">Nombre de positions (agents) *</label>
+                            <input type="number" id="positions" class="required-input" value="1" min="1" required oninput="calculateTotalPrice()">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullname">Nom complet du responsable *</label>
+                            <input type="text" id="fullname" class="required-input" placeholder="Ex: Anas El khadir" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Adresse email professionnelle *</label>
+                            <input type="email" id="email" class="required-input" placeholder="Ex: a.elkhadir@entreprise.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Numéro de Téléphone *</label>
+                            <input type="tel" id="phone" class="required-input" placeholder="Ex: +212 600 000 000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="line-type">Type de lignes souhaitées *</label>
+                            <select id="line-type" class="required-input" required>
+                                <option value="mixte" selected>Mixte (Fixes & Mobiles)</option>
+                                <option value="fixes">Lignes Fixes Uniquement</option>
+                                <option value="mobiles">Lignes Mobiles Uniquement</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pays ciblé pour vos campagnes d'appels *</label>
+                        <div class="ringover-dropdown" id="countryDropdown">
+                            <div class="dropdown-trigger" id="dropdownTriggerBtn">
+                                <span id="selected-country">
+                                    <img src="https://flagcdn.com/w40/fr.png" class="flag-icon" alt="France"> France
+                                </span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="dropdown-menu" id="dropdownMenu">
+                                <div class="dropdown-item" data-value="France" data-code="fr">
+                                    <img src="https://flagcdn.com/w40/fr.png" class="flag-icon" alt="France"> France
+                                </div>
+                                <div class="dropdown-item" data-value="Belgique" data-code="be">
+                                    <img src="https://flagcdn.com/w40/be.png" class="flag-icon" alt="Belgique"> Belgique
+                                </div>
+                                <div class="dropdown-item" data-value="Canada" data-code="ca">
+                                    <img src="https://flagcdn.com/w40/ca.png" class="flag-icon" alt="Canada"> Canada
+                                </div>
+                                <div class="dropdown-item" data-value="Suisse" data-code="ch">
+                                    <img src="https://flagcdn.com/w40/ch.png" class="flag-icon" alt="Suisse"> Suisse
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="countries" name="countries" value="France">
+                    </div>
+
+                    <div class="live-price-box">
+                        <div class="live-price-title">
+                            <span>Prix estimé de votre abonnement :</span>
+                            <span class="live-price-amount" id="computed-price">85,00 € <span style="font-size:12px; color:#64748b;">/ mois</span></span>
+                        </div>
+                        <div class="live-price-detail" id="price-explanation">
+                            Inclus : La licence CRM d'appel ainsi que la voix illimitée vers les fixes et mobiles en France.
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitPaymentBtn" class="btn-corail-submit">
+                        Passer au paiement <i class="fa-solid fa-credit-card"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- LOGIQUE DU CYCLE CHRONOLOGIQUE DE LA STORY (MOCKUP) ---
+        const totalSteps = 4;
+        let currentStep = 0;
+        const routes = [
+            "morsodial.com/predictive-dialer",
+            "morsodial.com/call-recording",
+            "morsodial.com/crm-pipeline",
+            "morsodial.com/analytics-dashboard"
+        ];
+
+        function runStorytellingCycle() {
+            // Nettoyer les classes actives et complétées
+            for (let i = 0; i < totalSteps; i++) {
+                document.getElementById(`screen-${i}`).classList.remove('active');
+                document.getElementById(`dot-${i}`).classList.remove('active', 'completed');
+                if (i < currentStep) {
+                    document.getElementById(`dot-${i}`).classList.add('completed');
+                }
+            }
+
+            // Activer l'écran actuel
+            document.getElementById(`screen-${currentStep}`).classList.add('active');
+            document.getElementById(`dot-${currentStep}`).classList.add('active');
+            document.getElementById('mockupRoute').innerText = routes[currentStep];
+
+            // Relancer l'animation de courbe SVG si on atteint l'étape 4 (index 3)
+            if(currentStep === 3) {
+                const line = document.querySelector('.chart-line');
+                if(line) {
+                    line.style.animation = 'none';
+                    line.offsetHeight; /* Trigger reflow */
+                    line.style.animation = null;
+                }
+            }
+
+            currentStep = (currentStep + 1) % totalSteps;
+        }
+
+        // Lancement immédiat et configuration de l'intervalle autonome
+        runStorytellingCycle();
+        setInterval(runStorytellingCycle, 4000);
+
+
+        // --- LOGIQUE SOMBRE / CLAIR ---
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+
+        // --- CALCULE DE GRILLES TARIFAIRES ---
+        const rates = {
+            "France": { price: 85, voice: "illimite" },
+            "Canada": { price: 50, voice: "illimite" },
+            "Suisse": { price: 9.99, voice: "payg" },
+            "Belgique": { price: 9.99, voice: "payg" }
+        };
+
+        function openModal() {
+            document.getElementById('devis-modal').classList.add('active');
+            calculateTotalPrice();
+            checkFormValidity();
+        }
+
+        function openModalWithCountry(countryName) {
+            let code = "fr";
+            if(countryName === "Canada") code = "ca";
+            if(countryName === "Belgique") code = "be";
+            if(countryName === "Suisse") code = "ch";
+
+            document.getElementById('selected-country').innerHTML = `
+                <img src="https://flagcdn.com/w40/${code}.png" class="flag-icon" alt="${countryName}"> ${countryName}
+            `;
+            document.getElementById('countries').value = countryName;
+            openModal();
+        }
+
+        function closeModal() {
+            document.getElementById('devis-modal').classList.remove('active');
+            document.getElementById('countryDropdown').classList.remove('open');
+        }
+
+        function calculateTotalPrice() {
+            const countInput = document.getElementById('positions');
+            let agents = parseInt(countInput.value);
+            if (isNaN(agents) || agents < 1) agents = 1;
+
+            const selectedCountry = document.getElementById('countries').value;
+            const rateInfo = rates[selectedCountry] || rates["France"];
+
+            const total = (rateInfo.price * agents).toFixed(2);
+            document.getElementById('computed-price').innerHTML = `${total.replace('.', ',')} € <span style="font-size:12px; color:#64748b;">/ mois</span>`;
+            
+            const explanationBox = document.getElementById('price-explanation');
+            if (rateInfo.voice === "illimite") {
+                explanationBox.innerHTML = `Inclus : La licence CRM d'appel ainsi que la voix illimitée vers la zone <strong>${selectedCountry}</strong> (fixes et mobiles compris).`;
+            } else {
+                explanationBox.innerHTML = `Ce prix concerne uniquement les <strong>logs (licence CRM)</strong>. Pour passer des appels, vous aurez besoin d'effectuer des recharges de crédit directement depuis votre interface (Pay As You Go).`;
+            }
+        }
+
+        // --- FORMULAIRE ET ANIMATION SHAKE ---
+        const formInputs = document.querySelectorAll('.required-input');
+        const submitBtn = document.getElementById('submitPaymentBtn');
+
+        function checkFormValidity() {
+            let allValid = true;
+            formInputs.forEach(input => {
+                if (!input.value.trim() || !input.checkValidity()) {
+                    allValid = false;
+                }
+            });
+
+            if (allValid) {
+                submitBtn.classList.add('should-shake');
+            } else {
+                submitBtn.classList.remove('should-shake');
+            }
+        }
+
+        formInputs.forEach(input => {
+            input.addEventListener('input', checkFormValidity);
+            input.addEventListener('change', checkFormValidity);
+        });
+
+        // Custom Dropdown menu
+        const trigger = document.getElementById('dropdownTriggerBtn');
+        const dropdownBox = document.getElementById('countryDropdown');
+
+        trigger.addEventListener('click', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            dropdownBox.classList.toggle('open');
+        });
+
+        const items = document.querySelectorAll('.dropdown-item');
+        items.forEach(function(item) {
+            item.addEventListener('click', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                
+                const countryName = this.getAttribute('data-value');
+                const countryCode = this.getAttribute('data-code');
+                
+                document.getElementById('selected-country').innerHTML = `
+                    <img src="https://flagcdn.com/w40/${countryCode}.png" class="flag-icon" alt="${countryName}"> ${countryName}
+                `;
+                
+                document.getElementById('countries').value = countryName;
+                dropdownBox.classList.remove('open');
+                
+                calculateTotalPrice();
+                checkFormValidity();
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!dropdownBox.contains(event.target)) {
+                dropdownBox.classList.remove('open');
+            }
+        });
+    </script>
+
+</body>
+</html>
